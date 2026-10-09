@@ -42,6 +42,14 @@ h3{margin-top:5px}
 
 <div class="card">
 <h3>Select Your Players</h3>
+  
+<div class="card">
+<h3>🔴 Live Cricket Matches</h3>
+<p class="muted">Match data powered by SportScore</p>
+<button onclick="loadMatches()">Refresh Matches</button>
+<div id="liveMatches">Loading matches...</div>
+</div>
+  
 <p class="muted">Rules: 11 players, 100 credits, max 7 from one team.</p>
 <p class="muted">Roles: WK 1–4, BAT 3–6, AR 1–4, BOWL 3–6.</p>
 <div id="players"></div>
@@ -66,6 +74,23 @@ h3{margin-top:5px}
 </main>
 
 <script>
+  
+async function loadMatches(){
+  const box=document.getElementById("liveMatches");
+  box.textContent="Loading matches...";
+  try{
+    const response=await fetch(
+      "https://sportscore.com/api/widget/matches/?sport=cricket&limit=10"
+    );
+    if(!response.ok) throw new Error("Request failed");
+    const data=await response.json();
+    box.textContent=JSON.stringify(data,null,2);
+  }catch(error){
+    box.textContent="Matches load nahi huay. API access ya browser restrictions check karein.";
+  }
+}
+loadMatches();
+  
 const squad=[
 {name:"Aiden Markram",team:"SA",role:"BAT",credit:9,points:42},
 {name:"Travis Head",team:"AUS",role:"BAT",credit:10,points:76},
