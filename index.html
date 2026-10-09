@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10251c">
+<title>Haris Fantasy Cricket</title>
+<style>
+body {
+  margin: 0; padding: 18px;
+  font-family: Arial, sans-serif;
+  background: #10251c; color: white;
+}
+.card {
+  background: #1b382b; padding: 16px;
+  border-radius: 14px; margin: 12px 0;
+}
+button, select {
+  padding: 12px; border-radius: 8px;
+  border: 0; margin: 5px 0;
+}
+button {
+  background: #b8f36b; color: #10251c;
+  font-weight: bold;
+}
+.player {
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 8px;
+  border-bottom: 1px solid #395344;
+  padding: 10px 0;
+}
+small { color: #c4d7ca; }
+</style>
+</head>
+<body>
+<h2>🏏 Haris Fantasy Cricket</h2>
+<small>PRIVATE LEAGUE · FIRST VERSION</small>
+
+<div class="card">
+  <h3>South Africa vs Australia</h3>
+  <p>Demo match — sample players and scores</p>
+  <p>Selected: <b id="count">0</b> / 11</p>
+  <div id="players"></div>
+</div>
+
+<div class="card">
+  <h3>Choose Captain & Vice-Captain</h3>
+  <label>Captain</label><br>
+  <select id="captain"></select><br>
+  <label>Vice-captain</label><br>
+  <select id="vice"></select><br>
+  <button onclick="saveTeam()">Save My Team</button>
+  <p id="message">Choose your players first.</p>
+</div>
+
+<div class="card">
+  <h3>My Fantasy Score</h3>
+  <h1 id="score">0 points</h1>
+  <small>Uses sample points, not live match data.</small>
+</div>
+
+<script>
+const players = [
+ {name:"Aiden Markram",team:"SA",pts:45},
+ {name:"Travis Head",team:"AUS",pts:70},
+ {name:"Steve Smith",team:"AUS",pts:35},
+ {name:"Temba Bavuma",team:"SA",pts:25},
+ {name:"Cameron Green",team:"AUS",pts:60},
+ {name:"Marco Jansen",team:"SA",pts:55},
+ {name:"Pat Cummins",team:"AUS",pts:40},
+ {name:"Kagiso Rabada",team:"SA",pts:50},
+ {name:"Adam Zampa",team:"AUS",pts:30},
+ {name:"Quinton de Kock",team:"SA",pts:65},
+ {name:"Josh Hazlewood",team:"AUS",pts:35},
+ {name:"David Miller",team:"SA",pts:42},
+ {name:"Mitchell Marsh",team:"AUS",pts:48}
+];
+
+let selected = [];
+
+function render() {
+ document.getElementById("players").innerHTML =
+ players.map((p,i)=>`
+ <div class="player">
+  <label>
+   <input type="checkbox" ${selected.includes(i)?"checked":""}
+    onchange="toggle(${i},this.checked)">
+   ${p.name} <small>(${p.team})</small>
+  </label>
+  <small>${p.pts} pts*</small>
+ </div>`).join("");
+
+ document.getElementById("count").textContent=selected.length;
+ fillSelect("captain");
+ fillSelect("vice");
+}
+
+function toggle(i,checked) {
+ if(checked && selected.length>=11) {
+  alert("Your team can contain only 11 players.");
+  render(); return;
+ }
+ selected=checked?[...selected,i]:selected.filter(x=>x!==i);
+ render();
+}
+
+function fillSelect(id) {
+ const el=document.getElementById(id);
+ const previous=el.value;
+ el.innerHTML=selected.map(i=>
+  `<option value="${i}">${players[i].name}</option>`
+ ).join("");
+ if(selected.some(i=>String(i)===previous)) el.value=previous;
+}
+
+function saveTeam() {
+ if(selected.length!==11) {
+  document.getElementById("message").textContent=
+   "Please select exactly 11 players.";
+  return;
+ }
+ const c=Number(document.getElementById("captain").value);
+ const v=Number(document.getElementById("vice").value);
+ if(c===v) {
+  document.getElementById("message").textContent=
+   "Captain and vice-captain must be different.";
+  return;
+ }
+ const total=selected.reduce((sum,i)=>{
+  return sum+players[i].pts*(i===c?2:i===v?1.5:1);
+ },0);
+ document.getElementById("score").textContent=
+  total.toLocaleString()+" points";
+ document.getElementById("message").textContent=
+  "Team saved on this device!";
+ localStorage.setItem("harisFantasyTeam",
+  JSON.stringify({selected,c,v,total}));
+}
+
+try {
+ const saved=JSON.parse(
+  localStorage.getItem("harisFantasyTeam")||"null");
+ if(saved && Array.isArray(saved.selected) &&
+    saved.selected.every(i=>Number.isInteger(i)&&players[i])) {
+  selected=saved.selected;
+ }
+} catch(e) {}
+render();
+</script>
+</body>
+</html>
