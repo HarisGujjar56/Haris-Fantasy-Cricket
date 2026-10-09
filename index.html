@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,14 +6,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Haris Fantasy Cricket</title>
 <style>
-body{margin:0;background:#101827;color:white;font-family:Arial,sans-serif}
-header{background:#087f5b;padding:22px;text-align:center}
-main{padding:16px;max-width:600px;margin:auto}
-.card{background:#1e293b;padding:14px;border-radius:12px;margin:12px 0}
-button,select{padding:10px;border:0;border-radius:7px;margin:4px}
-button{background:#12b886;color:white;font-weight:bold}
-.player{display:flex;align-items:center;justify-content:space-between;gap:6px;border-bottom:1px solid #39465b;padding:10px 0}
-.small{color:#cbd5e1;font-size:13px}
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#f1f5f9;font-family:Arial,sans-serif}
+header{background:#087f5b;text-align:center;padding:20px}
+main{max-width:650px;margin:auto;padding:12px}
+.card{background:#172337;padding:15px;border-radius:13px;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:#25344a;padding:10px;border-radius:9px;text-align:center}
+small,.muted{color:#aab8cc}
+button,select{padding:10px;border:0;border-radius:7px;margin:3px}
+button{background:#10b981;color:#06271e;font-weight:bold}
+button:disabled{opacity:.4}
+.player{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #334155}
+.player span{font-size:14px}
+.tag{font-size:11px;color:#aab8cc}
+input{padding:10px;border-radius:7px;border:0;max-width:100%}
+h3{margin-top:5px}
 </style>
 </head>
 <body>
@@ -22,79 +31,164 @@ button{background:#12b886;color:white;font-weight:bold}
 </header>
 <main>
 <div class="card">
-<h3>South Africa 🇿🇦 vs Australia 🇦🇺</h3>
-<p class="small">DEMO MATCH — sample players, not live squads</p>
-<p>Selected: <b id="count">0</b>/11</p>
+<h3>🇿🇦 South Africa vs Australia 🇦🇺</h3>
+<p class="muted">DEMO MATCH — sample players and points</p>
+<div class="stats">
+<div class="stat"><small>Players</small><div id="count">0/11</div></div>
+<div class="stat"><small>Credits left</small><div id="credits">100</div></div>
+<div class="stat"><small>Team points</small><div id="points">0</div></div>
 </div>
+</div>
+
 <div class="card">
 <h3>Select Your Players</h3>
+<p class="muted">Rules: 11 players, 100 credits, max 7 from one team.</p>
+<p class="muted">Roles: WK 1–4, BAT 3–6, AR 1–4, BOWL 3–6.</p>
 <div id="players"></div>
 </div>
+
 <div class="card">
 <h3>Captain & Vice-Captain</h3>
-<label>Captain: <select id="captain"></select></label>
+<p>Captain earns 2× and vice-captain 1.5× points.</p>
+<label>Captain <select id="captain"></select></label>
 <br>
-<label>Vice-Captain: <select id="vice"></select></label>
-<p class="small">Captain earns 2x points and vice-captain 1.5x in this demo.</p>
-<button onclick="saveTeam()">Save My Team</button>
-<p id="result"></p>
+<label>Vice-captain <select id="vice"></select></label>
+<br><br>
+<button onclick="saveTeam()">Save Team</button>
+<p id="message" class="muted"></p>
+</div>
+
+<div class="card">
+<h3>🏆 Demo Leaderboard</h3>
+<p class="muted">Your saved team and sample rival scores appear here on this device.</p>
+<ol id="leaderboard"></ol>
 </div>
 </main>
+
 <script>
 const squad=[
-["Aiden Markram","SA","BAT"],
-["Travis Head","AUS","BAT"],
-["Steven Smith","AUS","BAT"],
-["Temba Bavuma","SA","BAT"],
-["Cameron Green","AUS","AR"],
-["Marco Jansen","SA","AR"],
-["Pat Cummins","AUS","BOWL"],
-["Kagiso Rabada","SA","BOWL"],
-["Adam Zampa","AUS","BOWL"],
-["Heinrich Klaasen","SA","WK"],
-["Josh Inglis","AUS","WK"],
-["Mitchell Starc","AUS","BOWL"],
-["David Miller","SA","BAT"],
-["Marnus Labuschagne","AUS","BAT"],
-["Keshav Maharaj","SA","BOWL"]
+{name:"Aiden Markram",team:"SA",role:"BAT",credit:9,points:42},
+{name:"Travis Head",team:"AUS",role:"BAT",credit:10,points:76},
+{name:"Steven Smith",team:"AUS",role:"BAT",credit:9,points:38},
+{name:"Temba Bavuma",team:"SA",role:"BAT",credit:8,points:24},
+{name:"Cameron Green",team:"AUS",role:"AR",credit:9,points:55},
+{name:"Marco Jansen",team:"SA",role:"AR",credit:9,points:61},
+{name:"Pat Cummins",team:"AUS",role:"BOWL",credit:9,points:48},
+{name:"Kagiso Rabada",team:"SA",role:"BOWL",credit:9,points:52},
+{name:"Adam Zampa",team:"AUS",role:"BOWL",credit:8,points:34},
+{name:"Heinrich Klaasen",team:"SA",role:"WK",credit:9,points:68},
+{name:"Josh Inglis",team:"AUS",role:"WK",credit:8,points:31},
+{name:"Mitchell Starc",team:"AUS",role:"BOWL",credit:9,points:46},
+{name:"David Miller",team:"SA",role:"BAT",credit:8,points:44},
+{name:"Marnus Labuschagne",team:"AUS",role:"BAT",credit:8,points:29},
+{name:"Keshav Maharaj",team:"SA",role:"BOWL",credit:8,points:27}
 ];
-const selected=new Set();
-const players=document.getElementById("players");
-squad.forEach((p,i)=>{
-const div=document.createElement("div");
-div.className="player";
-div.innerHTML=`<span>${p[0]} <span class="small">${p[1]} · ${p[2]}</span></span><button type="button">${"Select"}</button>`;
-div.querySelector("button").onclick=()=>{
-if(selected.has(i))selected.delete(i);
-else if(selected.size<11)selected.add(i);
-else alert("Maximum 11 players!");
-render();
-};
-players.appendChild(div);
-});
+
+let selected=[];
+const $=id=>document.getElementById(id);
+const roles=["WK","BAT","AR","BOWL"];
+const limits={WK:[1,4],BAT:[3,6],AR:[1,4],BOWL:[3,6]};
+
+function totalCredits(){
+return selected.reduce((sum,i)=>sum+squad[i].credit,0);
+}
+function roleCount(role){
+return selected.filter(i=>squad[i].role===role).length;
+}
+function teamCount(team){
+return selected.filter(i=>squad[i].team===team).length;
+}
+function totalPoints(){
+let c=Number($("captain").value);
+let v=Number($("vice").value);
+return selected.reduce((sum,i)=>{
+let multiplier=i===c?2:i===v?1.5:1;
+return sum+squad[i].points*multiplier;
+},0);
+}
 function render(){
-[...players.children].forEach((el,i)=>{
-el.querySelector("button").textContent=selected.has(i)?"Remove":"Select";
+$("players").innerHTML="";
+squad.forEach((p,i)=>{
+let chosen=selected.includes(i);
+let div=document.createElement("div");
+div.className="player";
+let info=document.createElement("span");
+info.innerHTML="<b>"+p.name+"</b><br><span class='tag'>"+p.team+" · "+p.role+" · "+p.credit+" credits</span>";
+let btn=document.createElement("button");
+btn.textContent=chosen?"Remove":"Select";
+btn.onclick=()=>toggle(i);
+div.append(info,btn);
+$("players").appendChild(div);
 });
-document.getElementById("count").textContent=selected.size;
+$("count").textContent=selected.length+"/11";
+$("credits").textContent=100-totalCredits();
+fillSelectors();
+$("points").textContent=Math.round(totalPoints());
+}
+function fillSelectors(){
 ["captain","vice"].forEach(id=>{
-const s=document.getElementById(id),old=s.value;
+let s=$(id),old=s.value;
 s.innerHTML='<option value="">Choose player</option>';
-[...selected].forEach(i=>{
-s.add(new Option(squad[i][0],i));
+selected.forEach(i=>s.add(new Option(squad[i].name,i)));
+if(selected.some(i=>String(i)===old))s.value=old;
 });
-if([...s.options].some(o=>o.value===old))s.value=old;
-});
+}
+function toggle(i){
+$("message").textContent="";
+if(selected.includes(i)){
+selected=selected.filter(n=>n!==i);
+}else{
+let p=squad[i];
+if(selected.length>=11)return alert("Maximum 11 players.");
+if(totalCredits()+p.credit>100)return alert("100 credits budget exceeded.");
+if(teamCount(p.team)>=7)return alert("Maximum 7 players from one team.");
+if(roleCount(p.role)>=limits[p.role][1])return alert("Role limit reached for "+p.role+".");
+selected.push(i);
+}
+render();
 }
 function saveTeam(){
-const c=document.getElementById("captain").value;
-const v=document.getElementById("vice").value;
-if(selected.size!==11){alert("Please select exactly 11 players.");return;}
-if(c===""||v===""||c===v){alert("Choose different captain and vice-captain.");return;}
-document.getElementById("result").textContent=
-"Team saved for this session! Captain: "+squad[c][0]+", Vice-captain: "+squad[v][0]+".";
+if(selected.length!==11)return alert("Select exactly 11 players.");
+for(let r of roles){
+if(roleCount(r)<limits[r][0]||roleCount(r)>limits[r][1])
+return alert("Role requirement not met: "+r);
+}
+let c=$("captain").value,v=$("vice").value;
+if(c===""||v===""||c===v)return alert("Choose different captain and vice-captain.");
+let score=Math.round(totalPoints());
+let entry={
+name:"Haris",
+score,
+players:selected.map(i=>squad[i].name),
+captain:squad[Number(c)].name,
+vice:squad[Number(v)].name
+};
+try{
+localStorage.setItem("harisFantasyTeam",JSON.stringify(entry));
+}catch(e){}
+$("message").textContent="Team saved! Demo score: "+score+" points.";
+renderLeaderboard(entry);
+}
+function renderLeaderboard(userTeam){
+let saved=userTeam;
+try{
+if(!saved)saved=JSON.parse(localStorage.getItem("harisFantasyTeam"));
+}catch(e){}
+let rows=[
+{name:"Fantasy Champion",score:420},
+{name:"Cricket Pro",score:365}
+];
+if(saved)rows.push({name:saved.name,score:saved.score});
+rows.sort((a,b)=>b.score-a.score);
+$("leaderboard").innerHTML="";
+rows.forEach(r=>{
+let li=document.createElement("li");
+li.textContent=r.name+" — "+r.score+" points";
+$("leaderboard").appendChild(li);
+});
 }
 render();
+renderLeaderboard();
 </script>
 </body>
 </html>
