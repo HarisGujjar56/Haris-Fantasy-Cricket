@@ -224,7 +224,42 @@ function loadMatches(){
    return;
   }
   box.innerHTML="";
-  matches.slice(0,10).forEach(m=>{
+  
+matches.slice(0,10).forEach(m=>{
+  const item=document.createElement("div");
+  item.className="match";
+
+  const home=m.home || "Team 1";
+  const away=m.away || "Team 2";
+  const homeScore=m.home_score || "-";
+  const awayScore=m.away_score || "-";
+  const status=m.status_text || m.status || "";
+  const competition=m.competition || "Cricket";
+  const time=m.time ? new Date(m.time).toLocaleString() : "";
+
+  item.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <img src="${m.home_logo || ""}" alt=""
+        style="width:32px;height:32px;object-fit:contain"
+        onerror="this.style.display='none'">
+      <strong>${home}</strong>
+      <span style="margin-left:auto">${homeScore}</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <img src="${m.away_logo || ""}" alt=""
+        style="width:32px;height:32px;object-fit:contain"
+        onerror="this.style.display='none'">
+      <strong>${away}</strong>
+      <span style="margin-left:auto">${awayScore}</span>
+    </div>
+    <p class="small">${competition}</p>
+    <p class="tag">${status}</p>
+    <p class="small">${time}</p>
+  `;
+
+  box.appendChild(item);
+});
+  
    const item=document.createElement("div");
    item.className="match";
    const title=m.name || m.title || m.match || m.event_name || "";
