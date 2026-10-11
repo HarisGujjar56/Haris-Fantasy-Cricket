@@ -211,6 +211,68 @@ function findMatchArray(data){
 
 
 
+function showMatchDetails(m, home, away){
+ const old=document.getElementById("matchDetails");
+ if(old) old.remove();
+
+ const panel=document.createElement("div");
+ panel.id="matchDetails";
+ panel.style.cssText="position:fixed;inset:0;z-index:9999;background:#fff;color:#111;overflow:auto;padding:20px;";
+
+ const close=document.createElement("button");
+ close.textContent="← Back to Matches";
+ close.style.cssText="padding:10px 14px;margin-bottom:20px;";
+ close.onclick=()=>panel.remove();
+
+ const title=document.createElement("h2");
+ title.textContent=home+" vs "+away;
+
+ const score=document.createElement("h3");
+ score.textContent=
+  (m.home_score && m.home_score!=="-" ? m.home_score : "Score unavailable")
+  +" - "+
+  (m.away_score && m.away_score!=="-" ? m.away_score : "Score unavailable");
+
+ const status=document.createElement("p");
+ status.textContent="Status: "+(m.status_text||m.status||"Unknown");
+
+ const competition=document.createElement("p");
+ competition.textContent="Tournament: "+(m.competition||"Cricket");
+
+ const playersTitle=document.createElement("h3");
+ playersTitle.textContent="Match Details & Players";
+
+ const content=document.createElement("div");
+ content.textContent="Loading match details...";
+
+ panel.append(close,title,score,status,competition,playersTitle,content);
+ document.body.appendChild(panel);
+
+ if(!m.url){
+  content.textContent="Match details link is not available.";
+  return;
+ }
+
+ const slug=m.url.replace(/\/+$/,"").split("/").pop();
+
+ fetch("https://sportscore.com/api/widget/match/?sport=cricket&slug="+encodeURIComponent(slug))
+ .then(response=>{
+  if(!response.ok) throw new Error("Details unavailable");
+  return response.json();
+ })
+ .then(data=>{
+  content.textContent="";
+  const pre=document.createElement("pre");
+  pre.style.cssText="white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;";
+  pre.textContent=JSON.stringify(data,null,2);
+  content.appendChild(pre);
+ })
+ .catch(error=>{
+  content.textContent="Match details load nahi huay. Dobara try karein.";
+  console.log("Match details error:",error);
+ });
+}
+ 
 
 function loadMatches(){
  const box=document.getElementById("liveMatches");
@@ -289,18 +351,8 @@ function loadMatches(){
    item.append(row1,row2,competition,status,time);
 
    item.addEventListener("click",()=>{
-    if(m.url){
-     const url=m.url.startsWith("http")
-      ? m.url
-      : "https://sportscore.com"+m.url;
-     window.open(url,"_blank");
-    }else{
-     alert(home+" vs "+away+"\n"+
-      "Status: "+(m.status_text||m.status||"Unknown")+
-      "\n"+competition.textContent);
-    }
-   });
-
+ showMatchDetails(m,home,away);
+});
    box.appendChild(item);
   });
  })
