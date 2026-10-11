@@ -211,6 +211,7 @@ function findMatchArray(data){
 
 
 
+
 function showMatchDetails(m, home, away){
  const old=document.getElementById("matchDetails");
  if(old) old.remove();
@@ -239,38 +240,54 @@ function showMatchDetails(m, home, away){
  const competition=document.createElement("p");
  competition.textContent="Tournament: "+(m.competition||"Cricket");
 
- const playersTitle=document.createElement("h3");
- playersTitle.textContent="Match Details & Players";
+ const squadTitle=document.createElement("h3");
+ squadTitle.textContent="Demo Fantasy Squad (15 Players)";
 
- const content=document.createElement("div");
- content.textContent="Loading match details...";
+ const note=document.createElement("p");
+ note.textContent="Demo players only — not the verified lineup for this match.";
 
- panel.append(close,title,score,status,competition,playersTitle,content);
- document.body.appendChild(panel);
+ const list=document.createElement("div");
 
- if(!m.url){
-  content.textContent="Match details link is not available.";
-  return;
- }
+ squad.forEach(p=>{
+  const row=document.createElement("div");
+  row.style.cssText="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #ddd;gap:10px;";
 
- const slug=m.url.replace(/\/+$/,"").split("/").pop();
+  const info=document.createElement("div");
+  const name=document.createElement("strong");
+  name.textContent=p.n;
 
- fetch("https://sportscore.com/api/widget/match/?sport=cricket&slug="+encodeURIComponent(slug))
- .then(response=>{
-  if(!response.ok) throw new Error("Details unavailable");
-  return response.json();
- })
- .then(data=>{
-  content.textContent="";
-  const pre=document.createElement("pre");
-  pre.style.cssText="white-space:pre-wrap;overflow-wrap:anywhere;font-size:13px;";
-  pre.textContent=JSON.stringify(data,null,2);
-  content.appendChild(pre);
- })
- .catch(error=>{
-  content.textContent="Match details load nahi huay. Dobara try karein.";
-  console.log("Match details error:",error);
+  const details=document.createElement("div");
+  details.className="small";
+  details.textContent=p.t+" · "+p.r+" · "+p.c+" credits · "+p.p+" demo pts";
+
+  info.append(name,details);
+
+  const check=document.createElement("input");
+  check.type="checkbox";
+  check.checked=selected.includes(p.id);
+  check.setAttribute("aria-label","Select "+p.n);
+
+  check.onchange=()=>{
+   if(check.checked){
+    if(selected.length>=11){
+     check.checked=false;
+     alert("Maximum 11 players.");
+     return;
+    }
+    selected.push(p.id);
+   }else{
+    selected=selected.filter(id=>id!==p.id);
+   }
+   render();
+   showMatchDetails(m,home,away);
+  };
+
+  row.append(info,check);
+  list.appendChild(row);
  });
+
+ panel.append(close,title,score,status,competition,squadTitle,note,list);
+ document.body.appendChild(panel);
 }
  
 
