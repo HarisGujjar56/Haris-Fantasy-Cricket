@@ -210,6 +210,8 @@ function findMatchArray(data){
 }
 
 
+
+
 function loadMatches(){
  const box=document.getElementById("liveMatches");
  box.textContent="Loading matches...";
@@ -234,6 +236,7 @@ function loadMatches(){
   matches.slice(0,10).forEach(m=>{
    const item=document.createElement("div");
    item.className="match";
+   item.style.cursor="pointer";
 
    const home=m.home || "Team 1";
    const away=m.away || "Team 2";
@@ -258,9 +261,11 @@ function loadMatches(){
     team.textContent=name;
     row.appendChild(team);
 
-    const runs=document.createElement("span");
-    runs.textContent=score || "-";
-    runs.style.marginLeft="auto";
+    const runs=document.createElement("strong");
+    runs.textContent=(score!==null && score!==undefined &&
+      String(score).trim()!=="" && String(score).trim()!=="-")
+      ? score : "Score unavailable";
+    runs.style.cssText="margin-left:auto;text-align:right";
     row.appendChild(runs);
    }
 
@@ -282,6 +287,20 @@ function loadMatches(){
     : "";
 
    item.append(row1,row2,competition,status,time);
+
+   item.addEventListener("click",()=>{
+    if(m.url){
+     const url=m.url.startsWith("http")
+      ? m.url
+      : "https://sportscore.com"+m.url;
+     window.open(url,"_blank");
+    }else{
+     alert(home+" vs "+away+"\n"+
+      "Status: "+(m.status_text||m.status||"Unknown")+
+      "\n"+competition.textContent);
+    }
+   });
+
    box.appendChild(item);
   });
  })
@@ -290,7 +309,7 @@ function loadMatches(){
   box.textContent="Matches load nahi huay. Refresh karke dobara try karein.";
  });
 }
-
+ 
 try{
  const saved=JSON.parse(localStorage.getItem("harisFantasyTeam")||"null");
  if(saved){
