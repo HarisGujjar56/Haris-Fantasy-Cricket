@@ -211,84 +211,88 @@ function findMatchArray(data){
 
 
 
+function showMatchDetails(m, home, away) {
+  const old = document.getElementById("matchDetails");
+  if (old) old.remove();
 
-function showMatchDetails(m, home, away){
- const old=document.getElementById("matchDetails");
- if(old) old.remove();
+  const panel = document.createElement("div");
+  panel.id = "matchDetails";
+  panel.style.cssText =
+    "position:fixed;inset:0;z-index:9999;background:#fff;color:#111;overflow:auto;padding:20px;";
 
- const panel=document.createElement("div");
- panel.id="matchDetails";
- panel.style.cssText="position:fixed;inset:0;z-index:9999;background:#fff;color:#111;overflow:auto;padding:20px;";
+  const close = document.createElement("button");
+  close.textContent = "← Back to Matches";
+  close.style.cssText = "padding:10px 14px;margin-bottom:20px;";
+  close.onclick = () => panel.remove();
 
- const close=document.createElement("button");
- close.textContent="← Back to Matches";
- close.style.cssText="padding:10px 14px;margin-bottom:20px;";
- close.onclick=()=>panel.remove();
+  const title = document.createElement("h2");
+  title.textContent = home + " vs " + away;
 
- const title=document.createElement("h2");
- title.textContent=home+" vs "+away;
+  const score = document.createElement("h3");
+  score.textContent =
+    (m.home_score && m.home_score !== "-"
+      ? m.home_score : "Score unavailable") +
+    " - " +
+    (m.away_score && m.away_score !== "-"
+      ? m.away_score : "Score unavailable");
 
- const score=document.createElement("h3");
- score.textContent=
-  (m.home_score && m.home_score!=="-" ? m.home_score : "Score unavailable")
-  +" - "+
-  (m.away_score && m.away_score!=="-" ? m.away_score : "Score unavailable");
+  const status = document.createElement("p");
+  status.textContent = "Status: " + (m.status_text || m.status || "Unknown");
 
- const status=document.createElement("p");
- status.textContent="Status: "+(m.status_text||m.status||"Unknown");
+  const competition = document.createElement("p");
+  competition.textContent = "Tournament: " + (m.competition || "Cricket");
 
- const competition=document.createElement("p");
- competition.textContent="Tournament: "+(m.competition||"Cricket");
+  const heading = document.createElement("h3");
+  heading.textContent = "Match Squad";
 
- const squadTitle=document.createElement("h3");
- squadTitle.textContent="Demo Fantasy Squad (15 Players)";
+  const note = document.createElement("p");
+  note.textContent = "Checking whether this match includes lineup data...";
 
- const note=document.createElement("p");
- note.textContent="Demo players only — not the verified lineup for this match.";
+  const list = document.createElement("div");
 
- const list=document.createElement("div");
+  panel.append(close, title, score, status, competition, heading, note, list);
+  document.body.appendChild(panel);
 
- squad.forEach(p=>{
-  const row=document.createElement("div");
-  row.style.cssText="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #ddd;gap:10px;";
+  // Only inspect lineup fields already present in the match response.
+  const possibleLineups = [
+    m.lineups,
+    m.lineup,
+    m.squad,
+    m.players
+  ];
 
-  const info=document.createElement("div");
-  const name=document.createElement("strong");
-  name.textContent=p.n;
+  let players = null;
 
-  const details=document.createElement("div");
-  details.className="small";
-  details.textContent=p.t+" · "+p.r+" · "+p.c+" credits · "+p.p+" demo pts";
-
-  info.append(name,details);
-
-  const check=document.createElement("input");
-  check.type="checkbox";
-  check.checked=selected.includes(p.id);
-  check.setAttribute("aria-label","Select "+p.n);
-
-  check.onchange=()=>{
-   if(check.checked){
-    if(selected.length>=11){
-     check.checked=false;
-     alert("Maximum 11 players.");
-     return;
+  for (const value of possibleLineups) {
+    if (Array.isArray(value) && value.length > 0) {
+      players = value;
+      break;
     }
-    selected.push(p.id);
-   }else{
-    selected=selected.filter(id=>id!==p.id);
-   }
-   render();
-   showMatchDetails(m,home,away);
-  };
+  }
 
-  row.append(info,check);
-  list.appendChild(row);
- });
+  if (!players) {
+    note.textContent =
+      "Verified squad is not available in this match data. No demo players shown.";
+    return;
+  }
 
- panel.append(close,title,score,status,competition,squadTitle,note,list);
- document.body.appendChild(panel);
+  note.textContent = "Lineup data found. Player details may need verification.";
+
+  players.forEach((p, index) => {
+    const row = document.createElement("div");
+    row.style.cssText = "padding:10px 0;border-bottom:1px solid #ddd;";
+
+    const name = document.createElement("strong");
+    name.textContent =
+      typeof p === "string"
+        ? p
+        : (p.name || p.player_name || p.fullName || "Player " + (index + 1));
+
+    row.appendChild(name);
+    list.appendChild(row);
+  });
 }
+ 
  
 
 function loadMatches(){
