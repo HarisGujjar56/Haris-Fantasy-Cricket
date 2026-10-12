@@ -8,70 +8,47 @@
 <style>
 :root{--bg:#07110f;--panel:#101e1a;--panel2:#162720;--green:#b6ff65;--green2:#42d392;--text:#f2f8f3;--muted:#9aada3;--line:#263b31;--red:#ff7777}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;padding-bottom:85px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif;padding-bottom:85px}
 button,input,select{font:inherit}button{cursor:pointer}
 .app{max-width:540px;margin:auto;min-height:100vh;background:radial-gradient(ellipse at 90% 0%,#1a4430 0%,transparent 36%),var(--bg)}
 header{padding:22px 17px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--green),var(--green2));color:#092015;font-size:23px}
-.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.4px;margin-bottom:4px}
-.brand strong{font-size:16px}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--green),var(--green2));color:#092015;font-size:23px}
+.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:1.4px;margin-bottom:4px}.brand strong{font-size:16px}
 .pill{border:1px solid #355943;border-radius:30px;padding:7px 9px;font-size:10px;color:var(--green);white-space:nowrap}
-main{padding:10px 15px}
-.page{display:none}.page.active{display:block}
-.hero{position:relative;overflow:hidden;border:1px solid #345541;border-radius:23px;padding:23px 18px;background:linear-gradient(125deg,#193c2b,#10251d 65%,#0b1712)}
+main{padding:10px 15px}.page{display:none}.page.active{display:block}
+.hero{border:1px solid #345541;border-radius:23px;padding:23px 18px;background:linear-gradient(125deg,#193c2b,#10251d 65%,#0b1712)}
 .kicker{color:var(--green);font-size:10px;font-weight:bold;letter-spacing:1.7px}
-h1{font-size:28px;line-height:1.15;margin:12px 0 9px}
-.hero p{font-size:12px;color:#b5c8bd;line-height:1.6}
+h1{font-size:28px;line-height:1.15;margin:12px 0 9px}.hero p{font-size:12px;color:#b5c8bd;line-height:1.6}
 .primary{border:0;background:var(--green);color:#102117;border-radius:11px;padding:12px 14px;font-weight:800;font-size:12px}
 .secondary{border:1px solid #355943;background:#14251c;color:var(--green);border-radius:11px;padding:11px 13px;font-size:12px;font-weight:bold}
-.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:23px 2px 12px}
-.section-head h2{font-size:15px;margin:0}
-.section-head span{font-size:10px;color:var(--muted)}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:23px 2px 12px}.section-head h2{font-size:15px;margin:0}.section-head span{font-size:10px;color:var(--muted)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:14px;margin-bottom:11px}
-.match-card{cursor:pointer;transition:border-color .15s}
-.match-card:active{border-color:var(--green)}
+.match-card{cursor:pointer}.match-card:active{border-color:var(--green)}
 .match-top{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:10px;margin-bottom:15px}
-.live{color:var(--green);font-weight:bold;text-align:right}
-.teams{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.live{color:var(--green);font-weight:bold;text-align:right}.teams{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .team{display:flex;align-items:center;gap:8px;font-weight:bold;font-size:12px;min-width:0;overflow-wrap:anywhere}
 .flag{width:34px;height:34px;border-radius:11px;background:var(--panel2);display:grid;place-items:center;font-size:18px;flex-shrink:0}
 .match-score{color:var(--green);font-size:14px;font-weight:bold;margin-top:6px;overflow-wrap:anywhere}
 .match-foot{border-top:1px solid var(--line);margin-top:13px;padding-top:11px;display:flex;align-items:center;justify-content:space-between;gap:8px;color:var(--muted);font-size:10px}
 .text-btn{border:0;background:transparent;color:var(--green);font-weight:bold;font-size:11px}
-.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 8px}
-.stat strong{font-size:19px;display:block;margin-bottom:5px;overflow-wrap:anywhere}
-.stat span{color:var(--muted);font-size:10px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 8px}
+.stat strong{font-size:19px;display:block;margin-bottom:5px;overflow-wrap:anywhere}.stat span{color:var(--muted);font-size:10px}
 label{font-size:11px;color:var(--muted);display:block;margin:12px 0 7px}
 input,select{width:100%;background:#091510;border:1px solid #2a4335;color:white;border-radius:10px;padding:12px;outline:none}
-input:focus,select:focus{border-color:var(--green)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:16px 0}
-.tab{background:transparent;border:1px solid transparent;border-radius:10px;color:var(--muted);padding:9px 2px;font-size:10px}
-.tab.active{background:#193626;border-color:#315a40;color:var(--green)}
-.player{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid var(--line)}
-.player:last-child{border:0}
+.player{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid var(--line)}.player:last-child{border:0}
 .avatar{width:37px;height:37px;border-radius:12px;background:#20372b;display:grid;place-items:center;font-size:18px;flex-shrink:0}
-.player-info{flex:1;min-width:0}
-.player-info strong{font-size:12px;display:block}
-.player-info small{font-size:10px;color:var(--muted);display:block;margin-top:4px}
-.player-right{text-align:right;min-width:49px}
-.player-right strong{font-size:12px;display:block}
-.player-right small{font-size:10px;color:var(--muted)}
+.player-info{flex:1;min-width:0}.player-info strong{font-size:12px;display:block}.player-info small{font-size:10px;color:var(--muted);display:block;margin-top:4px}
+.player-right{text-align:right;min-width:49px}.player-right strong{font-size:12px;display:block}.player-right small{font-size:10px;color:var(--muted)}
 .pick{width:29px;height:29px;border:1px solid #3d5948;background:#14251c;color:var(--green);border-radius:9px;font-weight:bold;flex-shrink:0}
 .pick.selected{background:var(--green);color:#102117}
 .notice{font-size:11px;color:var(--muted);line-height:1.6;margin:12px 0}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:#0c1712f5;border-top:1px solid var(--line);padding:8px 8px calc(8px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(4,1fr);max-width:540px;margin:auto;z-index:5}
-.bottom button{background:none;border:0;color:var(--muted);font-size:10px;padding:5px}
-.bottom button span{display:block;font-size:19px;margin-bottom:4px}
-.bottom button.active{color:var(--green)}
-.full{width:100%;margin-top:12px}
-.badge{display:inline-block;background:#203b2a;color:var(--green);padding:5px 8px;border-radius:7px;font-size:10px}
+.bottom button{background:none;border:0;color:var(--muted);font-size:10px;padding:5px}.bottom button span{display:block;font-size:19px;margin-bottom:4px}.bottom button.active{color:var(--green)}
+.full{width:100%;margin-top:12px}.badge{display:inline-block;background:#203b2a;color:var(--green);padding:5px 8px;border-radius:7px;font-size:10px}
 .empty{padding:18px 8px;text-align:center;color:var(--muted);font-size:12px;line-height:1.7}
-.toast{font-size:11px;color:var(--green);margin-top:10px;min-height:15px}
+.toast{font-size:11px;color:var(--green);margin-top:10px;min-height:15px}.error{color:var(--red)}
 hr{border:0;border-top:1px solid var(--line);margin:14px 0}
-.error{color:var(--red)}
 </style>
 </head>
 <body>
@@ -81,101 +58,52 @@ hr{border:0;border-top:1px solid var(--line);margin:14px 0}
  <div class="pill">★ PRO MODE</div>
 </header>
 <main>
-
 <section class="page active" id="home">
- <div class="hero">
-  <div class="kicker">YOUR GAME. YOUR GLORY.</div>
-  <h1>Build Your<br>Dream XI.</h1>
-  <p>Choose your players, lead your team and climb the leaderboard.</p>
-  <button class="primary" onclick="go('team')">CREATE YOUR TEAM ↗</button>
- </div>
+ <div class="hero"><div class="kicker">YOUR GAME. YOUR GLORY.</div><h1>Build Your<br>Dream XI.</h1><p>Choose your players, lead your team and climb the leaderboard.</p><button class="primary" onclick="go('team')">CREATE YOUR TEAM ↗</button></div>
  <div class="section-head"><h2>Your Dashboard</h2><span>SEASON 2026</span></div>
- <div class="stat-grid">
-  <div class="stat"><strong id="homePlayers">0/11</strong><span>Players picked</span></div>
-  <div class="stat"><strong id="homeCredits">100</strong><span>Credits left</span></div>
-  <div class="stat"><strong id="homePoints">0</strong><span>Team points</span></div>
- </div>
+ <div class="stat-grid"><div class="stat"><strong id="homePlayers">0/11</strong><span>Players picked</span></div><div class="stat"><strong id="homeCredits">100</strong><span>Credits left</span></div><div class="stat"><strong id="homePoints">0</strong><span>Team points</span></div></div>
  <div class="section-head"><h2>Match Centre</h2><button class="text-btn" onclick="loadLiveMatches()">↻ REFRESH</button></div>
  <div id="liveMatches"><div class="card"><div class="empty">Loading cricket matches...</div></div></div>
- <p class="notice">Match cards kholne ke liye card par kahin bhi tap karein. Scores external source se aate hain.</p>
+ <p class="notice">Match cards par tap karke details kholein. Scores external source se aate hain.</p>
 </section>
 
 <section class="page" id="details">
  <button class="secondary" onclick="go('home')">← BACK TO MATCHES</button>
  <div class="section-head"><h2>Match Details</h2><span class="badge" id="detailStatus">MATCH</span></div>
- <div class="card">
-  <div class="kicker" id="detailCompetition">CRICKET</div>
-  <h2 id="detailTitle" style="font-size:21px;line-height:1.4">Select a match</h2>
-  <div class="teams" style="margin-top:18px">
-   <div><div class="team"><div class="flag">🏏</div><span id="detailHome">Team 1</span></div><div class="match-score" id="detailHomeScore">—</div></div>
-   <div><div class="team"><div class="flag">🏏</div><span id="detailAway">Team 2</span></div><div class="match-score" id="detailAwayScore">—</div></div>
-  </div>
-  <hr>
-  <p class="notice" id="detailInfo">Match information will appear here.</p>
-  <button class="primary full" onclick="chooseSelectedMatch()">BUILD FANTASY TEAM ↗</button>
- </div>
- <div class="section-head"><h2>Playing XI / Players</h2><span class="badge">SQUAD STATUS</span></div>
- <div class="card">
-  <p class="notice">The live score source may not provide verified Playing XI. The starter squad below is a demo player list, not the confirmed lineup for this match.</p>
-  <button class="secondary full" onclick="go('team')">VIEW AVAILABLE DEMO PLAYERS</button>
- </div>
+ <div class="card"><div class="kicker" id="detailCompetition">CRICKET</div><h2 id="detailTitle" style="font-size:21px;line-height:1.4">Select a match</h2>
+ <div class="teams" style="margin-top:18px"><div><div class="team"><div class="flag">🏏</div><span id="detailHome">Team 1</span></div><div class="match-score" id="detailHomeScore">—</div></div><div><div class="team"><div class="flag">🏏</div><span id="detailAway">Team 2</span></div><div class="match-score" id="detailAwayScore">—</div></div></div>
+ <hr><p class="notice" id="detailInfo">Match information will appear here.</p><button class="primary full" onclick="chooseSelectedMatch()">BUILD FANTASY TEAM ↗</button></div>
+ <div class="section-head"><h2>Playing XI / Players</h2><span class="badge">DEMO SQUAD</span></div>
+ <div class="card"><p class="notice">Live source confirmed Playing XI provide na kare to neeche diye gaye players demo list hain, confirmed lineup nahi.</p><button class="secondary full" onclick="go('team')">VIEW AVAILABLE PLAYERS</button></div>
 </section>
 
 <section class="page" id="team">
  <div class="section-head"><h2>Build Your XI</h2><span class="badge">100 CREDITS</span></div>
  <div class="card">
-  <label>Fantasy Match Name</label>
-  <input id="matchName" placeholder="Select a match or enter a name">
-  <div class="form-row">
-   <div><label>Players Selected</label><div class="stat"><strong id="pickedCount">0 / 11</strong></div></div>
-   <div><label>Credits Remaining</label><div class="stat"><strong id="creditsLeft">100</strong></div></div>
-  </div>
-  <label>Filter Players</label>
-  <select id="roleFilter" onchange="renderPlayers()">
-   <option value="ALL">All Roles</option><option value="WK">WK</option><option value="BAT">BAT</option><option value="AR">AR</option><option value="BOWL">BOWL</option>
-  </select>
-  <div id="players"></div>
-  <div class="notice">Demo squad rules: 11 players, max 100 credits, max 7 from one country; minimum 1 WK, 3 BAT, 1 AR and 3 BOWL.</div>
-  <button class="primary full" onclick="saveTeam()">SAVE MY TEAM</button>
-  <div id="teamMessage" class="toast"></div>
+ <label>Fantasy Match Name</label><input id="matchName" placeholder="Select a match or enter a name">
+ <div class="form-row"><div><label>Players Selected</label><div class="stat"><strong id="pickedCount">0 / 11</strong></div></div><div><label>Credits Remaining</label><div class="stat"><strong id="creditsLeft">100</strong></div></div></div>
+ <label>Filter Players</label><select id="roleFilter" onchange="renderPlayers()"><option value="ALL">All Roles</option><option value="WK">WK</option><option value="BAT">BAT</option><option value="AR">AR</option><option value="BOWL">BOWL</option></select>
+ <div id="players"></div>
+ <div class="notice">Rules: 11 players, maximum 100 credits, maximum 7 players from one country; minimum 1 WK, 3 BAT, 1 AR and 3 BOWL. Players are a demo list.</div>
+ <button class="primary full" onclick="saveTeam()">SAVE MY TEAM</button><div id="teamMessage" class="toast"></div>
  </div>
  <div class="section-head"><h2>Leadership</h2><span>MAKE IT COUNT</span></div>
- <div class="card">
-  <label>Captain · 2× points</label><select id="captain"></select>
-  <label>Vice-Captain · 1.5× points</label><select id="vice"></select>
-  <button class="primary full" onclick="saveLeadership()">SAVE CAPTAIN & VICE-CAPTAIN</button>
-  <div id="leaderMessage" class="toast"></div>
- </div>
+ <div class="card"><label>Captain · 2× points</label><select id="captain"></select><label>Vice-Captain · 1.5× points</label><select id="vice"></select><button class="primary full" onclick="saveLeadership()">SAVE CAPTAIN & VICE-CAPTAIN</button><div id="leaderMessage" class="toast"></div></div>
 </section>
 
 <section class="page" id="points">
  <div class="section-head"><h2>Points Centre</h2><span>FANTASY STATS</span></div>
- <div class="hero"><div class="kicker">YOUR CURRENT SCORE</div><h1 id="pointsTotal">0 Points</h1><p>Points are manually entered in this version.</p></div>
- <div class="section-head"><h2>Your Selected Players</h2><span>POINTS</span></div>
- <div class="card" id="pointsList"><div class="empty">Save a team to see players here.</div></div>
+ <div class="hero"><div class="kicker">YOUR CURRENT SCORE</div><h1 id="pointsTotal">0 Points</h1><p>Points are entered manually in this version.</p></div>
+ <div class="section-head"><h2>Your Selected Players</h2><span>POINTS</span></div><div class="card" id="pointsList"><div class="empty">Save a team to see players here.</div></div>
  <div class="section-head"><h2>Admin: Update Points</h2><span>LOCAL ONLY</span></div>
- <div class="card">
-  <p class="notice">Create a PIN on first use. This is only a local convenience PIN, not secure account authentication.</p>
-  <label>Admin PIN</label><input id="adminPin" type="password" inputmode="numeric" placeholder="Create or enter PIN">
-  <button class="primary full" onclick="unlockAdmin()">UNLOCK POINTS EDITOR</button>
-  <div id="adminArea" style="display:none"><hr><div id="scoreInputs"></div><button class="primary full" onclick="savePoints()">SAVE PLAYER POINTS</button></div>
-  <div id="adminMessage" class="toast"></div>
- </div>
+ <div class="card"><p class="notice">First use par PIN banayein. Yeh sirf is device par local PIN hai, secure online authentication nahi.</p><label>Admin PIN</label><input id="adminPin" type="password" inputmode="numeric" placeholder="Create or enter PIN"><button class="primary full" onclick="unlockAdmin()">UNLOCK POINTS EDITOR</button><div id="adminArea" style="display:none"><hr><div id="scoreInputs"></div><button class="primary full" onclick="savePoints()">SAVE PLAYER POINTS</button></div><div id="adminMessage" class="toast"></div></div>
 </section>
 
 <section class="page" id="league">
  <div class="section-head"><h2>Private League</h2><span class="badge">LOCAL DEMO</span></div>
- <div class="card">
-  <div class="kicker">YOUR FRIENDS. YOUR RIVALRY.</div><h2>League Room</h2>
-  <p class="notice">This demo saves data on this device only. League codes do not sync between friends' phones yet.</p>
-  <label>League Name</label><input id="leagueName" placeholder="Haris Friends League">
-  <label>League Code</label><input id="leagueCode" readonly placeholder="Generate a code">
-  <button class="primary full" onclick="makeCode()">GENERATE LEAGUE CODE</button><div id="leagueMessage" class="toast"></div>
- </div>
- <div class="section-head"><h2>Leaderboard</h2><span>YOUR TEAM</span></div>
- <div class="card" id="leaderboard"><div class="empty">Save your team to appear here.</div></div>
+ <div class="card"><div class="kicker">YOUR FRIENDS. YOUR RIVALRY.</div><h2>League Room</h2><p class="notice">Is demo mein league data isi device par save hota hai. Codes abhi doosre phones ke saath sync nahi karte.</p><label>League Name</label><input id="leagueName" placeholder="Haris Friends League"><label>League Code</label><input id="leagueCode" readonly placeholder="Generate a code"><button class="primary full" onclick="makeCode()">GENERATE LEAGUE CODE</button><div id="leagueMessage" class="toast"></div></div>
+ <div class="section-head"><h2>Leaderboard</h2><span>YOUR TEAM</span></div><div class="card" id="leaderboard"><div class="empty">Save your team to appear here.</div></div>
 </section>
-
 </main>
 <nav class="bottom">
  <button class="active" data-page="home" onclick="go('home')"><span>⌂</span>Home</button>
@@ -209,15 +137,15 @@ const players=[
 {id:20,n:"Rassie van der Dussen",c:"SA",f:"🇿🇦",r:"BAT",cr:8.5,p:0}
 ];
 
-let selected=JSON.parse(localStorage.getItem("hfc_selected")||"[]");
+function readJSON(key,fallback){try{const v=JSON.parse(localStorage.getItem(key));return v==null?fallback:v}catch(e){return fallback}}
+let selected=readJSON("hfc_selected",[]).filter(id=>players.some(p=>p.id===id));
 let captain=localStorage.getItem("hfc_captain")||"";
 let vice=localStorage.getItem("hfc_vice")||"";
-let savedPoints=JSON.parse(localStorage.getItem("hfc_points")||"{}");
+let savedPoints=readJSON("hfc_points",{});
 let savedTeam=localStorage.getItem("hfc_saved")==="yes";
-let adminUnlocked=false;
-let selectedMatch=null;
+let adminUnlocked=false,selectedMatch=null,liveMatchesCache=[],requestController=null;
 
-players.forEach(p=>{if(savedPoints[p.id]!==undefined)p.p=Number(savedPoints[p.id]);});
+players.forEach(p=>{if(savedPoints[p.id]!==undefined)p.p=Number(savedPoints[p.id])||0});
 
 function go(id){
  document.querySelectorAll(".page").forEach(p=>p.classList.toggle("active",p.id===id));
@@ -270,33 +198,42 @@ function matchData(m,index){
  const comp=typeof m.competition==="object"?teamName(m.competition):(m.competition||m.event_name||"CRICKET");
  return {m,index,home,away,status,comp,hs:matchScore(m,"home"),as:matchScore(m,"away")};
 }
-let liveMatchesCache=[];
-
+function renderMatchCards(){
+ const box=document.getElementById("liveMatches");
+ box.innerHTML=liveMatchesCache.map((m,i)=>{
+  const x=matchData(m,i),isLive=/live|in play|innings|playing/i.test(String(x.status));
+  return `<div class="card match-card" role="button" tabindex="0" onclick="openMatch(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openMatch(${i})}">
+   <div class="match-top"><span>${safeText(x.comp)}</span><span class="${isLive?'live':''}">${safeText(x.status)}</span></div>
+   <div class="teams">
+    <div class="team"><div class="flag">🏏</div><div><div>${safeText(x.home)}</div><div class="match-score">${safeText(x.hs)}</div></div></div>
+    <div class="team"><div class="flag">🏏</div><div><div>${safeText(x.away)}</div><div class="match-score">${safeText(x.as)}</div></div></div>
+   </div><div class="match-foot"><span>Tap to view match details</span><button class="text-btn" onclick="event.stopPropagation();openMatch(${i})">DETAILS →</button></div>
+  </div>`;
+ }).join("");
+}
 async function loadLiveMatches(){
  const box=document.getElementById("liveMatches");
- box.innerHTML='<div class="card"><div class="empty">Loading cricket matches...</div></div>';
+ if(requestController){try{requestController.abort()}catch(e){}}
+ requestController=new AbortController();
+ const controller=requestController;
+ const timer=setTimeout(()=>controller.abort(),12000);
+ box.innerHTML='<div class="card"><div class="empty">Loading cricket matches...<br>Please wait up to 12 seconds.</div></div>';
  try{
-  const res=await fetch("https://sportscore.com/api/widget/matches/?sport=cricket&limit=10",{cache:"no-store"});
+  const res=await fetch("https://sportscore.com/api/widget/matches/?sport=cricket&limit=10",{cache:"no-store",signal:controller.signal});
   if(!res.ok)throw new Error("HTTP "+res.status);
-  const data=await res.json();
-  const arr=findMatchArray(data);
+  const data=await res.json(),arr=findMatchArray(data);
   if(!arr.length)throw new Error("No matches returned");
+  if(controller!==requestController)return;
   liveMatchesCache=arr.slice(0,10);
-  box.innerHTML=liveMatchesCache.map((m,i)=>{
-   const x=matchData(m,i);
-   const isLive=/live|in play|innings|playing/i.test(String(x.status));
-   return `<div class="card match-card" role="button" tabindex="0" onclick="openMatch(${i})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openMatch(${i})}">
-    <div class="match-top"><span>${safeText(x.comp)}</span><span class="${isLive?'live':''}">${safeText(x.status)}</span></div>
-    <div class="teams">
-     <div class="team"><div class="flag">🏏</div><div><div>${safeText(x.home)}</div><div class="match-score">${safeText(x.hs)}</div></div></div>
-     <div class="team"><div class="flag">🏏</div><div><div>${safeText(x.away)}</div><div class="match-score">${safeText(x.as)}</div></div></div>
-    </div>
-    <div class="match-foot"><span>Tap to view match details</span><button class="text-btn" onclick="event.stopPropagation();openMatch(${i})">DETAILS →</button></div>
-   </div>`;
-  }).join("");
+  renderMatchCards();
  }catch(e){
-  console.error(e);
-  box.innerHTML='<div class="card"><div class="empty">Matches load nahi ho sake.<br>Internet check karein aur Refresh dabayein.<br><br><button class="primary" onclick="loadLiveMatches()">TRY AGAIN</button></div></div>';
+  if(controller!==requestController)return;
+  console.error("Match loading error:",e);
+  const message=e.name==="AbortError"?"Request timed out after 12 seconds.":"The cricket source could not be reached.";
+  box.innerHTML=`<div class="card"><div class="empty"><strong class="error">Matches load nahi ho sake.</strong><br>${safeText(message)}<br><br>Internet check karein ya thori dair baad try karein.<br><br><button class="primary" onclick="loadLiveMatches()">↻ TRY AGAIN</button></div></div>`;
+ }finally{
+  clearTimeout(timer);
+  if(controller===requestController)requestController=null;
  }
 }
 function openMatch(index){
@@ -309,9 +246,10 @@ function openMatch(index){
  document.getElementById("detailAway").textContent=selectedMatch.away;
  document.getElementById("detailHomeScore").textContent=selectedMatch.hs;
  document.getElementById("detailAwayScore").textContent=selectedMatch.as;
- document.getElementById("detailInfo").textContent="Status: "+selectedMatch.status+". Live score information is supplied by the external source. Confirmed Playing XI may not be available.";
- localStorage.setItem("hfc_match",selectedMatch.home+" vs "+selectedMatch.away);
- document.getElementById("matchName").value=selectedMatch.home+" vs "+selectedMatch.away;
+ document.getElementById("detailInfo").textContent="Status: "+selectedMatch.status+". Confirmed Playing XI may not be available from this source.";
+ const name=selectedMatch.home+" vs "+selectedMatch.away;
+ localStorage.setItem("hfc_match",name);
+ document.getElementById("matchName").value=name;
  go("details");
 }
 function chooseSelectedMatch(){
@@ -322,7 +260,7 @@ function chooseSelectedMatch(){
  }
  go("team");
 }
-function creditsUsed(){return players.filter(p=>selected.includes(p.id)).reduce((s,p)=>s+p.cr,0);}
+function creditsUsed(){return players.filter(p=>selected.includes(p.id)).reduce((s,p)=>s+p.cr,0)}
 function renderPlayers(){
  const filter=document.getElementById("roleFilter").value;
  const list=players.filter(p=>filter==="ALL"||p.r===filter);
@@ -335,4 +273,118 @@ function renderPlayers(){
  document.getElementById("creditsLeft").textContent=(100-creditsUsed()).toFixed(1);
  updateLeadershipOptions();
 }
-function togglePla
+function togglePlayer(id){
+ if(selected.includes(id))selected=selected.filter(x=>x!==id);
+ else{
+  if(selected.length>=11){showMessage("teamMessage","Aap sirf 11 players select kar sakte hain.");return}
+  if(creditsUsed()+players.find(p=>p.id===id).cr>100){showMessage("teamMessage","100 credits se zyada nahi ho sakte.");return}
+  selected.push(id);
+ }
+ localStorage.setItem("hfc_selected",JSON.stringify(selected));
+ renderPlayers();refreshStats();
+ document.getElementById("teamMessage").textContent="";
+}
+function validTeam(){
+ const team=players.filter(p=>selected.includes(p.id));
+ const roles=r=>team.filter(p=>p.r===r).length;
+ const countries=[...new Set(team.map(p=>p.c))];
+ return {ok:team.length===11&&creditsUsed()<=100&&countries.every(c=>team.filter(p=>p.c===c).length<=7)&&roles("WK")>=1&&roles("BAT")>=3&&roles("AR")>=1&&roles("BOWL")>=3,
+ message:team.length!==11?"Exactly 11 players select karein.":creditsUsed()>100?"Credits 100 se zyada hain.":countries.some(c=>team.filter(p=>p.c===c).length>7)?"Ek country se maximum 7 players allowed hain.":roles("WK")<1?"Kam az kam 1 WK select karein.":roles("BAT")<3?"Kam az kam 3 BAT select karein.":roles("AR")<1?"Kam az kam 1 AR select karein.":roles("BOWL")<3?"Kam az kam 3 BOWL select karein.":"Team ready!"};
+}
+function saveTeam(){
+ const v=validTeam();
+ if(!v.ok){showMessage("teamMessage",v.message);return}
+ savedTeam=true;localStorage.setItem("hfc_saved","yes");
+ showMessage("teamMessage","Team successfully saved on this device.");
+ updateLeadershipOptions();refreshStats();renderLeaderboard();
+}
+ function updateLeadershipOptions(){
+ const team=players.filter(p=>selected.includes(p.id));
+ ["captain","vice"].forEach(id=>{
+  const el=document.getElementById(id),old=el.value|| (id==="captain"?captain:vice);
+  el.innerHTML='<option value="">Select player</option>'+team.map(p=>`<option value="${p.id}">${p.n}</option>`).join("");
+  if(team.some(p=>String(p.id)===String(old)))el.value=String(old);
+ });
+}
+function saveLeadership(){
+ if(!savedTeam||selected.length!==11){showMessage("leaderMessage","Pehle valid 11-player team save karein.");return}
+ const c=document.getElementById("captain").value,v=document.getElementById("vice").value;
+ if(!c||!v){showMessage("leaderMessage","Captain aur Vice-Captain select karein.");return}
+ if(c===v){showMessage("leaderMessage","Captain aur Vice-Captain alag players hone chahiye.");return}
+  captain=c;vice=v;localStorage.setItem("hfc_captain",captain);localStorage.setItem("hfc_vice",vice);
+ showMessage("leaderMessage","Captain aur Vice-Captain saved.");
+ renderPoints();refreshStats();renderLeaderboard();
+}
+function showMessage(id,msg){document.getElementById(id).textContent=msg}
+function totalPoints(){
+ return players.filter(p=>selected.includes(p.id)).reduce((sum,p)=>{
+  const mult=String(p.id)===String(captain)?2:String(p.id)===String(vice)?1.5:1;
+  return sum+p.p*mult;
+ },0);
+}
+ function refreshStats(){
+ document.getElementById("homePlayers").textContent=selected.length+"/11";
+ document.getElementById("homeCredits").textContent=(100-creditsUsed()).toFixed(1);
+ document.getElementById("homePoints").textContent=totalPoints();
+}
+function renderPoints(){
+ const team=players.filter(p=>selected.includes(p.id));
+ document.getElementById("pointsTotal").textContent=totalPoints()+" Points";
+ if(!team.length){document.getElementById("pointsList").innerHTML='<div class="empty">Save a team to see players here.</div>';return}
+ document.getElementById("pointsList").innerHTML=team.map(p=>{
+  const mult=String(p.id)===String(captain)?2:String(p.id)===String(vice)?1.5:1;
+  const tag=String(p.id)===String(captain)?" · C":String(p.id)===String(vice)?" · VC":"";
+  return `<div class="player"><div class="avatar">${p.f}</div><div class="player-info"><strong>${p.n}${tag}</strong><small>${p.r} · ${mult}× multiplier</small></div><div class="player-right"><strong>${p.p*mult}</strong><small>points</small></div></div>`;
+ }).join("");
+ if(adminUnlocked)renderScoreInputs();
+}
+ function unlockAdmin(){
+ const entered=document.getElementById("adminPin").value;
+ if(!entered){showMessage("adminMessage","PIN enter karein.");return}
+ let stored=localStorage.getItem("hfc_admin_pin");
+ if(!stored){localStorage.setItem("hfc_admin_pin",entered);stored=entered;showMessage("adminMessage","New local PIN created.");}
+ if(entered!==stored){showMessage("adminMessage","Wrong PIN.");return}
+ adminUnlocked=true;document.getElementById("adminArea").style.display="block";
+ renderScoreInputs();showMessage("adminMessage","Points editor unlocked on this device.");
+}
+function renderScoreInputs(){
+ const team=players.filter(p=>selected.includes(p.id));
+  
+ document.getElementById("scoreInputs").innerHTML=team.length?team.map(p=>`<label>${p.n} · Points</label><input type="number" step="1" id="score_${p.id}" value="${p.p}">`).join(""):'<div class="empty">Pehle players select karein.</div>';
+}
+function savePoints(){
+ if(!adminUnlocked){showMessage("adminMessage","Pehle PIN se unlock karein.");return}
+ players.filter(p=>selected.includes(p.id)).forEach(p=>{
+  const el=document.getElementById("score_"+p.id);
+  if(el)p.p=Number(el.value)||0;
+ });
+ savedPoints={};players.forEach(p=>savedPoints[p.id]=p.p);
+ localStorage.setItem("hfc_points",JSON.stringify(savedPoints));
+ showMessage("adminMessage","Player points saved.");
+ renderPoints();renderPlayers();refreshStats();renderLeaderboard();
+}
+ function makeCode(){
+ const name=document.getElementById("leagueName").value.trim()||"Haris Friends League";
+ const code="HFC-"+Math.random().toString(36).substring(2,7).toUpperCase();
+ localStorage.setItem("hfc_league_name",name);localStorage.setItem("hfc_league_code",code);
+ document.getElementById("leagueName").value=name;document.getElementById("leagueCode").value=code;
+ showMessage("leagueMessage","League code created on this device.");
+}
+function renderLeaderboard(){
+ const name=localStorage.getItem("hfc_league_name")||"Haris Friends League";
+ const box=document.getElementById("leaderboard");
+ if(!savedTeam){box.innerHTML='<div class="empty">Valid team save karein, phir yahan nazar aayegi.</div>';return}
+ box.innerHTML=`<div class="player"><div class="avatar">🏆</div><div class="player-info"><strong>${safeText(name)}</strong><small>${selected.length} players · This device only</small></div><div class="player-right"><strong>${totalPoints()}</strong><small>points</small></div></div>`;
+}
+function restoreFields(){
+ const match=localStorage.getItem("hfc_match");
+ if(match)document.getElementById("matchName").value=match;
+ const name=localStorage.getItem("hfc_league_name"),code=localStorage.getItem("hfc_league_code");
+ if(name)document.getElementById("leagueName").value=name;
+ if(code)document.getElementById("leagueCode").value=code;
+}
+ restoreFields();renderPlayers();refreshStats();renderPoints();renderLeaderboard();loadLiveMatches();
+</script>
+</body>
+</html>
+  
