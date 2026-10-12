@@ -2,396 +2,383 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#087f5b">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Haris Fantasy Cricket</title>
 <style>
+:root{
+  --bg:#07110f;--panel:#101e1a;--panel2:#162720;
+  --green:#b6ff65;--green2:#42d392;--text:#f2f8f3;
+  --muted:#9aada3;--line:#263b31;--red:#ff7777;
+}
 *{box-sizing:border-box}
-body{margin:0;background:#101827;color:#f8fafc;font-family:Arial,sans-serif}
-header{background:#087f5b;padding:22px 12px;text-align:center}
-header h1{margin:0;font-size:25px}
-header p{margin:8px 0 0}
-main{max-width:850px;margin:auto;padding:12px}
-.card{background:#1d293b;border-radius:12px;padding:15px;margin-bottom:14px}
-h2{font-size:20px;margin-top:0}
-.small{font-size:13px;color:#cbd5e1;line-height:1.5}
-.stats{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.stat{background:#101827;padding:12px;border-radius:8px;flex:1;min-width:90px}
-button{border:0;border-radius:8px;padding:11px 13px;background:#10b981;color:#06251b;font-weight:bold;margin:3px 2px;cursor:pointer}
-button.secondary{background:#334155;color:white}
-input,select{background:#101827;color:white;border:1px solid #64748b;border-radius:7px;padding:10px;max-width:100%;width:100%;margin:5px 0}
-input[type=checkbox]{width:20px;height:20px}
-.player{display:flex;align-items:center;gap:9px;padding:11px 0;border-bottom:1px solid #344256}
+body{
+  margin:0;background:var(--bg);color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  padding-bottom:90px;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:540px;margin:auto;min-height:100vh;background:
+  radial-gradient(ellipse at 90% 0%,#1a4430 0%,transparent 36%),var(--bg)}
+header{padding:23px 18px 12px;display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:43px;height:43px;border-radius:15px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--green),var(--green2));color:#092015;font-size:23px}
+.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:2px;margin-bottom:4px}
+.brand strong{font-size:17px;letter-spacing:.3px}
+.pill{border:1px solid #355943;border-radius:30px;padding:7px 10px;
+  font-size:10px;color:var(--green);letter-spacing:.5px}
+main{padding:10px 16px}
+.hero{position:relative;overflow:hidden;border:1px solid #345541;border-radius:25px;
+  padding:24px 20px;background:linear-gradient(125deg,#193c2b,#10251d 65%,#0b1712)}
+.hero:after{content:"🏏";position:absolute;right:1px;bottom:0;font-size:105px;
+  opacity:.16;transform:rotate(-18deg)}
+.kicker{color:var(--green);font-size:10px;font-weight:bold;letter-spacing:2px}
+h1{font-size:29px;line-height:1.12;margin:13px 0 9px;max-width:280px}
+.hero p{font-size:12px;color:#b5c8bd;line-height:1.6;max-width:260px}
+.primary{border:0;background:var(--green);color:#102117;border-radius:12px;
+  padding:12px 16px;font-weight:800;font-size:12px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin:25px 2px 12px}
+.section-head h2{font-size:15px;margin:0}
+.section-head span{font-size:10px;color:var(--muted)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:15px;margin-bottom:11px}
+.match-top{display:flex;justify-content:space-between;align-items:center;
+  color:var(--muted);font-size:10px;margin-bottom:15px}
+.live{color:var(--green);font-weight:bold}
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.team{display:flex;align-items:center;gap:9px;font-weight:bold;font-size:13px}
+.flag{width:35px;height:35px;border-radius:12px;background:var(--panel2);
+  display:grid;place-items:center;font-size:19px}
+.match-foot{border-top:1px solid var(--line);margin-top:14px;padding-top:12px;
+  display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:11px}
+.text-btn{border:0;background:transparent;color:var(--green);font-weight:bold;font-size:11px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:13px 9px}
+.stat strong{font-size:21px;display:block;margin-bottom:5px}
+.stat span{color:var(--muted);font-size:10px}
+label{font-size:11px;color:var(--muted);display:block;margin:12px 0 7px}
+input,select{width:100%;background:#091510;border:1px solid #2a4335;color:white;
+  border-radius:11px;padding:12px;outline:none}
+input:focus,select:focus{border-color:var(--green)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.page{display:none}.page.active{display:block}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:18px 0}
+.tab{background:transparent;border:1px solid transparent;border-radius:12px;
+  color:var(--muted);padding:10px 2px;font-size:10px}
+.tab.active{background:#193626;border-color:#315a40;color:var(--green)}
+.player{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
 .player:last-child{border:0}
-.player .info{flex:1;min-width:0}
-.player .info strong{overflow-wrap:anywhere}
-.player .pick{width:25px;flex-shrink:0}
-.player .pts{width:75px;flex-shrink:0}
-.tag{color:#6ee7b7;font-size:12px}
-.notice{color:#fcd34d}
-.hidden{display:none!important}
-.row{display:flex;gap:10px;flex-wrap:wrap}
-.row>div{flex:1;min-width:120px}
-footer{text-align:center;padding:20px;color:#94a3b8;font-size:12px}
-hr{border:0;border-top:1px solid #344256;margin:15px 0}
+.avatar{width:39px;height:39px;border-radius:13px;background:#20372b;display:grid;
+  place-items:center;font-size:19px;flex-shrink:0}
+.player-info{flex:1;min-width:0}
+.player-info strong{font-size:12px;display:block}
+.player-info small{font-size:10px;color:var(--muted);display:block;margin-top:5px}
+.player-right{text-align:right;min-width:68px}
+.player-right strong{font-size:12px;display:block}
+.player-right small{font-size:10px;color:var(--muted)}
+.pick{width:29px;height:29px;border:1px solid #3d5948;background:#14251c;color:var(--green);
+  border-radius:9px;font-weight:bold}
+.pick.selected{background:var(--green);color:#102117}
+.notice{font-size:11px;color:var(--muted);line-height:1.6;margin:12px 0}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#0c1712f5;
+  border-top:1px solid var(--line);padding:9px 8px calc(9px + env(safe-area-inset-bottom));
+  display:grid;grid-template-columns:repeat(4,1fr);max-width:540px;margin:auto;z-index:5}
+.bottom button{background:none;border:0;color:var(--muted);font-size:10px;padding:5px}
+.bottom button span{display:block;font-size:20px;margin-bottom:4px}
+.bottom button.active{color:var(--green)}
+.full{width:100%;margin-top:12px}
+.badge{display:inline-block;background:#203b2a;color:var(--green);padding:5px 8px;
+  border-radius:7px;font-size:10px}
+.empty{padding:20px;text-align:center;color:var(--muted);font-size:12px}
+hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+.toast{font-size:11px;color:var(--green);margin-top:10px;min-height:15px}
 </style>
 </head>
 <body>
+<div class="app">
 <header>
-<h1>🏏 Haris Fantasy Cricket</h1>
-<p>Your Cricket. Your Fantasy Team.</p>
+  <div class="brand">
+    <div class="logo">🏏</div>
+    <div><small>YOUR PRIVATE FANTASY ARENA</small><strong>HARIS FANTASY</strong></div>
+  </div>
+  <div class="pill">★ PRO MODE</div>
 </header>
 
 <main>
-<section class="card">
-<h2>🏟️ Match & Private League</h2>
-<label class="small">Match name</label>
-<input id="matchName" placeholder="e.g. Pakistan vs Australia">
-<div class="row">
-<div>
-<label class="small">League code</label>
-<input id="leagueCode" placeholder="Enter friends' code">
-</div>
-<div style="align-self:end">
-<button onclick="saveSettings()">Save Settings</button>
-<button class="secondary" onclick="makeCode()">Generate Code</button>
-</div>
-</div>
-<p class="small">Note: this starter saves data on this device only. A code does not yet connect different phones.</p>
-</section>
+  <section class="page active" id="home">
+    <div class="hero">
+      <div class="kicker">YOUR GAME. YOUR GLORY.</div>
+      <h1>Build Your<br>Dream XI.</h1>
+      <p>Choose your best players, lead your team and climb the leaderboard.</p>
+      <button class="primary" onclick="go('team')">CREATE YOUR TEAM ↗</button>
+    </div>
 
-<section class="card">
-<h2>👥 Create Your Fantasy XI</h2>
-<p class="small">Select 11 players. Maximum 100 credits. Captain scores 2× and vice-captain 1.5×.</p>
-<div class="stats">
-<div class="stat">Players<br><strong id="count">0 / 11</strong></div>
-<div class="stat">Credits left<br><strong id="credits">100</strong></div>
-<div class="stat">Fantasy points<br><strong id="total">0</strong></div>
-</div>
-<p id="message" class="notice small">Select your players.</p>
-<div id="players"></div>
-<hr>
-<div class="row">
-<div>
-<label class="small">Captain (2×)</label>
-<select id="captain" onchange="captain=this.value;renderSummary()"></select>
-</div>
-<div>
-<label class="small">Vice-captain (1.5×)</label>
-<select id="vice" onchange="vice=this.value;renderSummary()"></select>
-</div>
-</div>
-<button onclick="saveTeam()">💾 Save My Team</button>
-<button class="secondary" onclick="resetTeam()">Reset Team</button>
-<p id="saved" class="small"></p>
-</section>
+    <div class="section-head"><h2>Your Dashboard</h2><span>SEASON 2026</span></div>
+    <div class="stat-grid">
+      <div class="stat"><strong id="homePlayers">0/11</strong><span>Players picked</span></div>
+      <div class="stat"><strong id="homeCredits">100</strong><span>Credits left</span></div>
+      <div class="stat"><strong id="homePoints">0</strong><span>Team points</span></div>
+    </div>
 
-<section class="card">
-<h2>📝 Match Points Manager</h2>
-<p class="small">Enter each player's fantasy points from the scorecard. The team total and leaderboard will update automatically. This section is manual; it does not fetch live scores.</p>
-<label class="small">Admin PIN (set your own)</label>
-<input id="adminPin" type="password" placeholder="Create an admin PIN">
-<button onclick="unlockAdmin()">Unlock Points Entry</button>
-<div id="adminPanel" class="hidden">
-<p class="small">Enter fantasy points for players. Use 0 if a player earned no points. These values are saved on this device.</p>
-<div id="scoreInputs"></div>
-<button onclick="saveScores()">Save Player Points</button>
-<button class="secondary" onclick="lockAdmin()">Lock</button>
-</div>
-<p id="adminMessage" class="small"></p>
-</section>
+    <div class="section-head"><h2>Match Centre</h2><span>YOUR MATCH</span></div>
+    <div class="card">
+      <div class="match-top"><span>🏆 INTERNATIONAL CRICKET</span><span class="badge">T20</span></div>
+      <div class="teams">
+        <div class="team"><div class="flag">🇵🇰</div><div>Pakistan</div></div>
+        <div class="team"><div class="flag">🇦🇺</div><div>Australia</div></div>
+      </div>
+      <div class="match-foot"><span>Fantasy match setup</span><button class="text-btn" onclick="useMatch('Pakistan vs Australia')">SELECT MATCH →</button></div>
+    </div>
+    <div class="card">
+      <div class="match-top"><span>🏆 INTERNATIONAL CRICKET</span><span class="badge">T20</span></div>
+      <div class="teams">
+        <div class="team"><div class="flag">🇿🇦</div><div>South Africa</div></div>
+        <div class="team"><div class="flag">🇮🇳</div><div>India</div></div>
+      </div>
+      <div class="match-foot"><span>Fantasy match setup</span><button class="text-btn" onclick="useMatch('South Africa vs India')">SELECT MATCH →</button></div>
+    </div>
+    <p class="notice">Starter match cards only — these are not live fixtures or live scores.</p>
+  </section>
 
-<section class="card">
-<h2>🏆 My Team Score</h2>
-<div id="summary" class="small">Select and save a valid team to see its score.</div>
-</section>
+  <section class="page" id="team">
+    <div class="section-head"><h2>Build Your XI</h2><span class="badge">100 CREDITS</span></div>
+    <div class="card">
+      <label>Fantasy Match Name</label>
+      <input id="matchName" placeholder="e.g. Pakistan vs Australia" value="Pakistan vs Australia">
+      <div class="form-row">
+        <div><label>Players Selected</label><div class="stat"><strong id="pickedCount">0 / 11</strong></div></div>
+        <div><label>Credits Remaining</label><div class="stat"><strong id="creditsLeft">100</strong></div></div>
+      </div>
+      <label>Filter Players</label>
+      <select id="roleFilter" onchange="renderPlayers()">
+        <option value="ALL">All Roles</option><option>WK</option><option>BAT</option>
+        <option>AR</option><option>BOWL</option>
+      </select>
+      <div id="players"></div>
+      <div class="notice">Rules: 11 players, max 100 credits, max 7 players from one country. Required: at least 1 WK, 3 BAT, 1 AR and 3 BOWL.</div>
+      <button class="primary full" onclick="saveTeam()">SAVE MY TEAM</button>
+      <div id="teamMessage" class="toast"></div>
+    </div>
+    <div class="section-head"><h2>Leadership</h2><span>MAKE IT COUNT</span></div>
+    <div class="card">
+      <label>Captain · 2× points</label><select id="captain"></select>
+      <label>Vice-Captain · 1.5× points</label><select id="vice"></select>
+      <button class="primary full" onclick="saveLeadership()">SAVE CAPTAIN & VICE-CAPTAIN</button>
+      <div id="leaderMessage" class="toast"></div>
+    </div>
+  </section>
 
-<section class="card">
-<h2>📊 Local Leaderboard</h2>
-<div id="leaderboard"></div>
-<p class="small">Only this device's saved team is shown. Friends' rankings require a shared online database.</p>
-</section>
+  <section class="page" id="points">
+    <div class="section-head"><h2>Points Centre</h2><span>FANTASY STATS</span></div>
+    <div class="hero">
+      <div class="kicker">YOUR CURRENT SCORE</div>
+      <h1 id="pointsTotal">0 Points</h1>
+      <p>Player points are entered manually in this starter version.</p>
+    </div>
+    <div class="section-head"><h2>Your Selected Players</h2><span>POINTS</span></div>
+    <div class="card" id="pointsList"><div class="empty">Save a team to see your players here.</div></div>
+    <div class="section-head"><h2>Admin: Update Points</h2><span>LOCAL ONLY</span></div>
+    <div class="card">
+      <p class="notice">Set a PIN on first use. This is a local convenience PIN, not secure account authentication.</p>
+      <label>Admin PIN</label><input id="adminPin" type="password" inputmode="numeric" placeholder="Create or enter PIN">
+      <button class="primary full" onclick="unlockAdmin()">UNLOCK POINTS EDITOR</button>
+      <div id="adminArea" style="display:none">
+        <hr><div id="scoreInputs"></div>
+        <button class="primary full" onclick="savePoints()">SAVE PLAYER POINTS</button>
+      </div>
+      <div id="adminMessage" class="toast"></div>
+    </div>
+  </section>
 
-<section class="card">
-<h2>ℹ️ About This Version</h2>
-<p class="small">API-free starter version. Match names and player points are entered manually. Live scores, automatic scorecard imports, accounts and cross-device private leagues are not connected yet.</p>
-</section>
+  <section class="page" id="league">
+    <div class="section-head"><h2>Private League</h2><span class="badge">LOCAL DEMO</span></div>
+    <div class="card">
+      <div class="kicker">YOUR FRIENDS. YOUR RIVALRY.</div>
+      <h2>League Room</h2>
+      <p class="notice">Generate a code for this device's local demo. It will not sync with friends' phones yet.</p>
+      <label>League Name</label><input id="leagueName" placeholder="e.g. Haris Friends League">
+      <label>League Code</label><input id="leagueCode" readonly placeholder="Generate a code">
+      <button class="primary full" onclick="makeCode()">GENERATE LEAGUE CODE</button>
+      <div id="leagueMessage" class="toast"></div>
+    </div>
+    <div class="section-head"><h2>Leaderboard</h2><span>YOUR TEAM</span></div>
+    <div class="card" id="leaderboard"><div class="empty">Save your team to appear here.</div></div>
+  </section>
 </main>
-<footer>Haris Fantasy Cricket · Private fantasy project</footer>
+
+<nav class="bottom">
+  <button class="active" data-page="home" onclick="go('home')"><span>⌂</span>Home</button>
+  <button data-page="team" onclick="go('team')"><span>🏏</span>My Team</button>
+  <button data-page="points" onclick="go('points')"><span>✦</span>Points</button>
+  <button data-page="league" onclick="go('league')"><span>🏆</span>League</button>
+</nav>
+</div>
 
 <script>
-const squad=[
-{id:1,n:"Babar Azam",t:"PAK",r:"BAT",c:10,p:0},
-{id:2,n:"Mohammad Rizwan",t:"PAK",r:"WK",c:9,p:0},
-{id:3,n:"Shaheen Afridi",t:"PAK",r:"BOWL",c:9,p:0},
-{id:4,n:"Fakhar Zaman",t:"PAK",r:"BAT",c:8,p:0},
-{id:5,n:"Shadab Khan",t:"PAK",r:"AR",c:9,p:0},
-{id:6,n:"Saim Ayub",t:"PAK",r:"AR",c:8,p:0},
-{id:7,n:"Haris Rauf",t:"PAK",r:"BOWL",c:8,p:0},
-{id:8,n:"Naseem Shah",t:"PAK",r:"BOWL",c:8,p:0},
-{id:9,n:"Travis Head",t:"AUS",r:"BAT",c:10,p:0},
-{id:10,n:"Steve Smith",t:"AUS",r:"BAT",c:9,p:0},
-{id:11,n:"Glenn Maxwell",t:"AUS",r:"AR",c:9,p:0},
-{id:12,n:"Pat Cummins",t:"AUS",r:"BOWL",c:9,p:0},
-{id:13,n:"Josh Inglis",t:"AUS",r:"WK",c:8,p:0},
-{id:14,n:"Mitchell Starc",t:"AUS",r:"BOWL",c:9,p:0},
-{id:15,n:"Cameron Green",t:"AUS",r:"AR",c:9,p:0},
-{id:16,n:"Quinton de Kock",t:"SA",r:"WK",c:9,p:0},
-{id:17,n:"Aiden Markram",t:"SA",r:"BAT",c:9,p:0},
-{id:18,n:"Marco Jansen",t:"SA",r:"AR",c:9,p:0},
-{id:19,n:"Kagiso Rabada",t:"SA",r:"BOWL",c:9,p:0},
-{id:20,n:"David Miller",t:"SA",r:"BAT",c:8,p:0}
+const players = [
+{id:1,n:"Mohammad Rizwan",c:"PAK",f:"🇵🇰",r:"WK",cr:9.5,p:0},
+{id:2,n:"Heinrich Klaasen",c:"SA",f:"🇿🇦",r:"WK",cr:9},
+{id:3,n:"Babar Azam",c:"PAK",f:"🇵🇰",r:"BAT",cr:10,p:0},
+{id:4,n:"Travis Head",c:"AUS",f:"🇦🇺",r:"BAT",cr:9.5},
+{id:5,n:"Steve Smith",c:"AUS",f:"🇦🇺",r:"BAT",cr:9},
+{id:6,n:"David Miller",c:"SA",f:"🇿🇦",r:"BAT",cr:8.5},
+{id:7,n:"Fakhar Zaman",c:"PAK",f:"🇵🇰",r:"BAT",cr:8.5},
+{id:8,n:"Aiden Markram",c:"SA",f:"🇿🇦",r:"AR",cr:9},
+{id:9,n:"Marco Jansen",c:"SA",f:"🇿🇦",r:"AR",cr:8.5},
+{id:10,n:"Glenn Maxwell",c:"AUS",f:"🇦🇺",r:"AR",cr:9},
+{id:11,n:"Shadab Khan",c:"PAK",f:"🇵🇰",r:"AR",cr:8.5},
+{id:12,n:"Pat Cummins",c:"AUS",f:"🇦🇺",r:"BOWL",cr:9},
+{id:13,n:"Shaheen Afridi",c:"PAK",f:"🇵🇰",r:"BOWL",cr:9},
+{id:14,n:"Kagiso Rabada",c:"SA",f:"🇿🇦",r:"BOWL",cr:9},
+{id:15,n:"Adam Zampa",c:"AUS",f:"🇦🇺",r:"BOWL",cr:8.5},
+{id:16,n:"Naseem Shah",c:"PAK",f:"🇵🇰",r:"BOWL",cr:8},
+{id:17,n:"Josh Hazlewood",c:"AUS",f:"🇦🇺",r:"BOWL",cr:8.5},
+{id:18,n:"Tabraiz Shamsi",c:"SA",f:"🇿🇦",r:"BOWL",cr:8},
+{id:19,n:"Mohammad Nawaz",c:"PAK",f:"🇵🇰",r:"AR",cr:8},
+{id:20,n:"Rassie van der Dussen",c:"SA",f:"🇿🇦",r:"BAT",cr:8.5}
 ];
+let selected = JSON.parse(localStorage.getItem("hfc_selected")||"[]");
+let captain = localStorage.getItem("hfc_captain")||"";
+let vice = localStorage.getItem("hfc_vice")||"";
+let savedPoints = JSON.parse(localStorage.getItem("hfc_points")||"{}");
+let adminUnlocked = false;
+let savedTeam = localStorage.getItem("hfc_saved")==="yes";
 
-let selected=[];
-let captain="";
-let vice="";
-let savedTeam=null;
-let adminUnlocked=false;
+players.forEach(p=>{if(savedPoints[p.id]!==undefined)p.p=Number(savedPoints[p.id])});
 
-function persist(){
- try{
-  localStorage.setItem("hfc_v2",JSON.stringify({
-   selected,captain,vice,squad:squad.map(p=>({id:p.id,p:p.p})),
-   matchName:document.getElementById("matchName").value,
-   leagueCode:document.getElementById("leagueCode").value
-  }));
- }catch(e){}
+function go(id){
+ document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+ document.getElementById(id).classList.add("active");
+ document.querySelectorAll(".bottom button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+ if(id==="team")renderPlayers();
+ if(id==="points")renderPoints();
+ if(id==="league")renderLeaderboard();
+ refreshStats();
 }
-
-function restore(){
- try{
-  const d=JSON.parse(localStorage.getItem("hfc_v2")||"null");
-  if(!d)return;
-  selected=Array.isArray(d.selected)?d.selected:[];
-  captain=d.captain||"";
-  vice=d.vice||"";
-  if(d.matchName)document.getElementById("matchName").value=d.matchName;
-  if(d.leagueCode)document.getElementById("leagueCode").value=d.leagueCode;
-  if(Array.isArray(d.squad))d.squad.forEach(x=>{
-   const p=squad.find(y=>y.id===x.id);
-   if(p&&Number.isFinite(Number(x.p)))p.p=Number(x.p);
-  });
- }catch(e){}
+function useMatch(name){
+ document.getElementById("matchName").value=name;
+ go("team");
 }
-
-function validate(ids){
- const team=squad.filter(p=>ids.includes(p.id));
- const role=r=>team.filter(p=>p.r===r).length;
- const cost=team.reduce((s,p)=>s+p.c,0);
- const countries=[...new Set(team.map(p=>p.t))];
- return {
-  team,cost,
-  ok:team.length===11&&cost<=100&&
-   countries.every(t=>team.filter(p=>p.t===t).length<=7)&&
-   role("WK")>=1&&role("BAT")>=3&&role("AR")>=1&&role("BOWL")>=3&&
-   role("WK")<=4&&role("BAT")<=6&&role("AR")<=4&&role("BOWL")<=6
- };
-}
-
-function scoreTeam(){
- const v=validate(selected);
- return v.team.reduce((sum,p)=>{
-  const multiplier=String(p.id)===String(captain)?2:
-   String(p.id)===String(vice)?1.5:1;
-  return sum+p.p*multiplier;
- },0);
-}
-
-function render(){
+function creditsUsed(){return players.filter(p=>selected.includes(p.id)).reduce((s,p)=>s+p.cr,0)}
+function renderPlayers(){
+ const filter=document.getElementById("roleFilter").value;
  const box=document.getElementById("players");
- box.innerHTML="";
- squad.forEach(p=>{
-  const row=document.createElement("div");
-  row.className="player";
-  const info=document.createElement("div");
-  info.className="info";
-  const name=document.createElement("strong");
-  name.textContent=p.n;
-  const detail=document.createElement("div");
-  detail.className="small";
-  detail.textContent=p.t+" · "+p.r+" · "+p.c+" credits · "+p.p+" pts";
-  info.append(name,detail);
-  const check=document.createElement("input");
-  check.className="pick";
-  check.type="checkbox";
-  check.checked=selected.includes(p.id);
-  check.setAttribute("aria-label","Select "+p.n);
-  check.onchange=()=>{
-   if(check.checked){
-    if(selected.length>=11){check.checked=false;alert("Maximum 11 players.");return;}
-    selected.push(p.id);
-   }else{
-    selected=selected.filter(id=>id!==p.id);
-    if(String(captain)===String(p.id))captain="";
-    if(String(vice)===String(p.id))vice="";
-   }
-   render();
-  };
-  row.append(info,check);
-  box.appendChild(row);
- });
- renderSelectors();
- renderSummary();
- renderScoreInputs();
- renderLeaderboard();
+ const list=players.filter(p=>(filter==="ALL"||p.r===filter));
+ box.innerHTML=list.map(p=>`
+ <div class="player">
+  <div class="avatar">${p.f}</div>
+  <div class="player-info"><strong>${p.n}</strong><small>${p.c} · ${p.r}</small></div>
+  <div class="player-right"><strong>${p.cr} Cr</strong><small>${p.p} pts</small></div>
+  <button class="pick ${selected.includes(p.id)?"selected":""}" onclick="togglePlayer(${p.id})">${selected.includes(p.id)?"✓":"+"}</button>
+ </div>`).join("");
+ document.getElementById("pickedCount").textContent=selected.length+" / 11";
+ document.getElementById("creditsLeft").textContent=(100-creditsUsed()).toFixed(1);
+ updateLeadershipOptions();
 }
-
-function renderSelectors(){
- ["captain","vice"].forEach(id=>{
-  const el=document.getElementById(id);
-  const old=id==="captain"?captain:vice;
-  el.innerHTML="<option value=''>Choose player</option>";
-  squad.filter(p=>selected.includes(p.id)).forEach(p=>{
-   const o=document.createElement("option");
-   o.value=String(p.id);o.textContent=p.n;el.appendChild(o);
-  });
-  el.value=selected.some(x=>String(x)===String(old))?String(old):"";
-  if(id==="captain")captain=el.value;else vice=el.value;
- });
-}
-
-function renderSummary(){
- const v=validate(selected);
- document.getElementById("count").textContent=selected.length+" / 11";
- document.getElementById("credits").textContent=100-v.cost;
- document.getElementById("total").textContent=scoreTeam().toFixed(1);
- const msg=document.getElementById("message");
- if(selected.length<11)msg.textContent="Select "+(11-selected.length)+" more player(s).";
- else msg.textContent=v.ok?"Team rules satisfied!":"Team invalid: check credits and player roles.";
- const summary=document.getElementById("summary");
- if(!v.ok||!captain||!vice||captain===vice){
-  summary.textContent="Select a valid XI and different captain/vice-captain, then save your team.";
- }else{
-  const c=squad.find(p=>String(p.id)===String(captain));
-  const vc=squad.find(p=>String(p.id)===String(vice));
-  summary.textContent=(document.getElementById("matchName").value||"Selected match")+
-   " — "+scoreTeam().toFixed(1)+" points. Captain: "+c.n+
-   "; Vice-captain: "+vc.n+".";
+function togglePlayer(id){
+ if(selected.includes(id))selected=selected.filter(x=>x!==id);
+ else{
+  if(selected.length>=11){alert("Aap sirf 11 players select kar sakte hain.");return}
+  const p=players.find(x=>x.id===id);
+  if(creditsUsed()+p.cr>100){alert("100 credits se zyada nahi ho sakte.");return}
+  if(players.filter(x=>selected.includes(x.id)&&x.c===p.c).length>=7){alert("Ek country se maximum 7 players.");return}
+  selected.push(id);
  }
+ localStorage.setItem("hfc_selected",JSON.stringify(selected));
+ renderPlayers();refreshStats();
 }
-
+function validateTeam(){
+ const team=players.filter(p=>selected.includes(p.id));
+ const count=r=>team.filter(p=>p.r===r).length;
+ if(team.length!==11)return "Exactly 11 players select karein.";
+ if(creditsUsed()>100)return "Credits limit cross ho gayi.";
+ if(["PAK","AUS","SA"].some(c=>team.filter(p=>p.c===c).length>7))return "Ek country se maximum 7 players.";
+ if(count("WK")<1||count("BAT")<3||count("AR")<1||count("BOWL")<3)
+ return "Kam az kam 1 WK, 3 BAT, 1 AR aur 3 BOWL zaroori hain.";
+ return "";
+}
 function saveTeam(){
- const v=validate(selected);
- if(!v.ok){alert("Select 11 players within credits and role limits first.");return;}
- if(!captain||!vice||captain===vice){
-  alert("Choose different captain and vice-captain.");return;
- }
- savedTeam={selected:[...selected],captain,vice};
- persist();
- document.getElementById("saved").textContent="Team saved on this device.";
- renderLeaderboard();
- renderSummary();
+ const error=validateTeam();
+ const msg=document.getElementById("teamMessage");
+ if(error){msg.textContent=error;msg.style.color="var(--red)";return}
+ localStorage.setItem("hfc_saved","yes");savedTeam=true;
+ msg.textContent="Team successfully saved on this device!";
+ msg.style.color="var(--green)";
+ updateLeadershipOptions();refreshStats();renderLeaderboard();
 }
-
-function resetTeam(){
- if(!confirm("Reset your selected team?"))return;
- selected=[];captain="";vice="";savedTeam=null;
- document.getElementById("saved").textContent="";
- persist();render();
-}
-
-function renderScoreInputs(){
- const box=document.getElementById("scoreInputs");
- if(!box)return;
- box.innerHTML="";
- squad.forEach(p=>{
-  const row=document.createElement("div");
-  row.className="player";
-  const info=document.createElement("div");
-  info.className="info";
-  info.innerHTML="<strong></strong><div class='small'></div>";
-  info.querySelector("strong").textContent=p.n;
-  info.querySelector(".small").textContent=p.t+" · "+p.r;
-  const input=document.createElement("input");
-  input.className="pts";
-  input.type="number";input.min="0";input.step="0.5";
-  input.value=p.p;
-  input.setAttribute("aria-label",p.n+" fantasy points");
-  input.dataset.id=p.id;
-  input.disabled=!adminUnlocked;
-  row.append(info,input);
-  box.appendChild(row);
+function updateLeadershipOptions(){
+ const team=players.filter(p=>selected.includes(p.id));
+ ["captain","vice"].forEach(id=>{
+  const el=document.getElementById(id),old=id==="captain"?captain:vice;
+  el.innerHTML='<option value="">Select player</option>'+team.map(p=>`<option value="${p.id}">${p.n}</option>`).join("");
+  el.value=team.some(p=>String(p.id)===String(old))?old:"";
  });
 }
-
+function saveLeadership(){
+ captain=document.getElementById("captain").value;
+ vice=document.getElementById("vice").value;
+ const msg=document.getElementById("leaderMessage");
+ if(!captain||!vice||captain===vice){msg.textContent="Different captain aur vice-captain select karein.";msg.style.color="var(--red)";return}
+ localStorage.setItem("hfc_captain",captain);localStorage.setItem("hfc_vice",vice);
+ msg.textContent="Captain aur vice-captain saved!";msg.style.color="var(--green)";
+ refreshStats();renderPoints();
+}
+function pointsFor(p){
+ let multiplier=1;
+ if(String(p.id)===String(captain))multiplier=2;
+ else if(String(p.id)===String(vice))multiplier=1.5;
+ return p.p*multiplier;
+}
+function totalPoints(){return players.filter(p=>selected.includes(p.id)).reduce((s,p)=>s+pointsFor(p),0)}
+function refreshStats(){
+ document.getElementById("homePlayers").textContent=selected.length+"/11";
+ document.getElementById("homeCredits").textContent=(100-creditsUsed()).toFixed(1);
+ document.getElementById("homePoints").textContent=totalPoints();
+ document.getElementById("pointsTotal").textContent=totalPoints()+" Points";
+}
+function renderPoints(){
+ const team=players.filter(p=>selected.includes(p.id));
+ document.getElementById("pointsList").innerHTML=team.length?team.map(p=>`
+ <div class="player"><div class="avatar">${p.f}</div><div class="player-info"><strong>${p.n}</strong>
+ <small>${String(p.id)===String(captain)?"CAPTAIN · 2×":String(p.id)===String(vice)?"VICE-CAPTAIN · 1.5×":p.r}</small></div>
+ <div class="player-right"><strong>${pointsFor(p)}</strong><small>points</small></div></div>`).join(""):'<div class="empty">Pehle apni team save karein.</div>';
+ refreshStats();
+}
 function unlockAdmin(){
  const pin=document.getElementById("adminPin").value;
- if(!pin){alert("Set an admin PIN first.");return;}
- let savedPin=localStorage.getItem("hfc_admin_pin");
- if(!savedPin){
-  localStorage.setItem("hfc_admin_pin",pin);
-  savedPin=pin;
- }
- if(pin!==savedPin){
-  document.getElementById("adminMessage").textContent="Incorrect PIN.";
-  return;
- }
+ const msg=document.getElementById("adminMessage");
+ if(!pin){msg.textContent="PIN enter karein.";return}
+ const existing=localStorage.getItem("hfc_admin_pin");
+ if(!existing)localStorage.setItem("hfc_admin_pin",pin);
+ else if(existing!==pin){msg.textContent="Wrong PIN.";msg.style.color="var(--red)";return}
  adminUnlocked=true;
- document.getElementById("adminPanel").classList.remove("hidden");
- renderScoreInputs();
- document.getElementById("adminMessage").textContent="Points entry unlocked on this device.";
+ document.getElementById("adminArea").style.display="block";
+ document.getElementById("scoreInputs").innerHTML=players.map(p=>`
+ <div class="player"><div class="player-info"><strong>${p.n}</strong><small>${p.c} · ${p.r}</small></div>
+ <div style="width:90px"><input type="number" id="score${p.id}" value="${p.p}" min="0"></div></div>`).join("");
+ msg.textContent="Points editor unlocked on this device.";msg.style.color="var(--green)";
 }
-
-function lockAdmin(){
- adminUnlocked=false;
- document.getElementById("adminPanel").classList.add("hidden");
- document.getElementById("adminPin").value="";
- renderScoreInputs();
-}
-
-function saveScores(){
+function savePoints(){
  if(!adminUnlocked)return;
- document.querySelectorAll("#scoreInputs input").forEach(input=>{
-  const p=squad.find(x=>x.id===Number(input.dataset.id));
-  const value=Number(input.value);
-  if(p&&Number.isFinite(value)&&value>=0)p.p=value;
+ players.forEach(p=>{
+  const el=document.getElementById("score"+p.id);
+  if(el)p.p=Math.max(0,Number(el.value)||0);
+  savedPoints[p.id]=p.p;
  });
- persist();
- document.getElementById("adminMessage").textContent="Player points saved!";
- render();
- document.getElementById("adminPanel").classList.remove("hidden");
- adminUnlocked=true;
- renderScoreInputs();
+ localStorage.setItem("hfc_points",JSON.stringify(savedPoints));
+ document.getElementById("adminMessage").textContent="Player points saved.";
+ renderPoints();renderPlayers();renderLeaderboard();
 }
-
-function renderLeaderboard(){
- const box=document.getElementById("leaderboard");
- const name=(document.getElementById("matchName").value||"My Fantasy XI");
- const total=savedTeam?
-  savedTeam.selected.reduce((sum,id)=>{
-   const p=squad.find(x=>x.id===id);
-   const mult=String(id)===String(savedTeam.captain)?2:
-    String(id)===String(savedTeam.vice)?1.5:1;
-   return sum+(p?p.p*mult:0);
-  },0):0;
- box.textContent="";
- const p=document.createElement("p");
- p.textContent=savedTeam?"1. "+name+" — "+total.toFixed(1)+" points":"No saved team yet.";
- box.appendChild(p);
-}
-
-function saveSettings(){
- persist();
- renderSummary();
- renderLeaderboard();
- alert("Settings saved on this device.");
-}
-
 function makeCode(){
- const code="HFC-"+Math.random().toString(36).slice(2,7).toUpperCase();
+ const chars="ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+ let code="";
+ for(let i=0;i<6;i++)code+=chars[Math.floor(Math.random()*chars.length)];
  document.getElementById("leagueCode").value=code;
- persist();
- alert("League code created: "+code+
-  "\nThis is a local placeholder. It will not sync friends' phones until online backend is added.");
+ localStorage.setItem("hfc_league_name",document.getElementById("leagueName").value);
+ localStorage.setItem("hfc_league_code",code);
+ document.getElementById("leagueMessage").textContent="Code generated for this device's demo.";
 }
-
-document.getElementById("matchName").addEventListener("input",()=>{
- renderSummary();renderLeaderboard();
-});
-
-restore();
-render();
-</script>
-</body>
-</html>
+function renderLeaderboard(){
+ document.getElementById("leaderboard").innerHTML=savedTeam?
+ `<
