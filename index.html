@@ -347,22 +347,64 @@ function renderPoints(){
  adminUnlocked=true;document.getElementById("adminArea").style.display="block";
  renderScoreInputs();showMessage("adminMessage","Points editor unlocked on this device.");
 }
+
 function renderScoreInputs(){
  const team=players.filter(p=>selected.includes(p.id));
-  
- document.getElementById("scoreInputs").innerHTML=team.length?team.map(p=>`<label>${p.n} · Points</label><input type="number" step="1" id="score_${p.id}" value="${p.p}">`).join(""):'<div class="empty">Pehle players select karein.</div>';
+
+ document.getElementById("scoreInputs").innerHTML=team.length?team.map(p=>`
+ <div class="player" style="display:block;margin-bottom:12px">
+  <strong>${p.n}</strong>
+  <label>Runs</label>
+  <input type="number" min="0" step="1" id="runs_${p.id}" value="${p.runs||0}">
+  <label>Wickets</label>
+  <input type="number" min="0" step="1" id="wickets_${p.id}" value="${p.wickets||0}">
+  <label>Catches</label>
+  <input type="number" min="0" step="1" id="catches_${p.id}" value="${p.catches||0}">
+ </div>`).join(""):'<div class="empty">Pehle players select karein.</div>';
 }
+ 
+
 function savePoints(){
- if(!adminUnlocked){showMessage("adminMessage","Pehle PIN se unlock karein.");return}
+ if(!adminUnlocked){
+  showMessage("adminMessage","Pehle PIN se unlock karein.");
+  return;
+ }
+
  players.filter(p=>selected.includes(p.id)).forEach(p=>{
-  const el=document.getElementById("score_"+p.id);
-  if(el)p.p=Number(el.value)||0;
+  const runsEl=document.getElementById("runs_"+p.id);
+  const wicketsEl=document.getElementById("wickets_"+p.id);
+  const catchesEl=document.getElementById("catches_"+p.id);
+
+  if(runsEl && wicketsEl && catchesEl){
+   p.runs=Math.max(0,Number(runsEl.value)||0);
+   p.wickets=Math.max(0,Number(wicketsEl.value)||0);
+   p.catches=Math.max(0,Number(catchesEl.value)||0);
+
+   p.p=p.runs+(p.wickets*25)+(p.catches*8);
+  }
  });
- savedPoints={};players.forEach(p=>savedPoints[p.id]=p.p);
+
+ savedPoints={};
+ players.forEach(p=>savedPoints[p.id]=p.p);
  localStorage.setItem("hfc_points",JSON.stringify(savedPoints));
- showMessage("adminMessage","Player points saved.");
- renderPoints();renderPlayers();refreshStats();renderLeaderboard();
+
+ const stats={};
+ players.forEach(p=>{
+  stats[p.id]={
+   runs:p.runs||0,
+   wickets:p.wickets||0,
+   catches:p.catches||0
+  };
+ });
+ localStorage.setItem("hfc_player_stats",JSON.stringify(stats));
+
+ showMessage("adminMessage","Fantasy points calculated and saved!");
+ renderPoints();
+ renderPlayers();
+ refreshStats();
+ renderLeaderboard();
 }
+ 
  function makeCode(){
  const name=document.getElementById("leagueName").value.trim()||"Haris Friends League";
  const code="HFC-"+Math.random().toString(36).substring(2,7).toUpperCase();
