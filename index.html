@@ -211,6 +211,7 @@ function findMatchArray(data){
 
 
 
+
 function showMatchDetails(m, home, away) {
   const old = document.getElementById("matchDetails");
   if (old) old.remove();
@@ -228,70 +229,105 @@ function showMatchDetails(m, home, away) {
   const title = document.createElement("h2");
   title.textContent = home + " vs " + away;
 
-  const score = document.createElement("h3");
-  score.textContent =
-    (m.home_score && m.home_score !== "-"
-      ? m.home_score : "Score unavailable") +
-    " - " +
-    (m.away_score && m.away_score !== "-"
-      ? m.away_score : "Score unavailable");
-
-  const status = document.createElement("p");
-  status.textContent = "Status: " + (m.status_text || m.status || "Unknown");
-
-  const competition = document.createElement("p");
-  competition.textContent = "Tournament: " + (m.competition || "Cricket");
-
-  const heading = document.createElement("h3");
-  heading.textContent = "Match Squad";
-
-  const note = document.createElement("p");
-  note.textContent = "Checking whether this match includes lineup data...";
+  const info = document.createElement("p");
+  info.textContent = "Loading actual scorecard...";
 
   const list = document.createElement("div");
-
-  panel.append(close, title, score, status, competition, heading, note, list);
+  panel.append(close, title, info, list);
   document.body.appendChild(panel);
 
-  // Only inspect lineup fields already present in the match response.
-  const possibleLineups = [
-    m.lineups,
-    m.lineup,
-    m.squad,
-    m.players
-  ];
+  // Match ID: use the OpenCricket ID if it exists in the match data.
+  const matchId = m.opencricket_id || m.match_id || m.id;
 
-  let players = null;
-
-  for (const value of possibleLineups) {
-    if (Array.isArray(value) && value.length > 0) {
-      players = value;
-      break;
-    }
-  }
-
-  if (!players) {
-    note.textContent =
-      "Verified squad is not available in this match data. No demo players shown.";
+  if (!matchId) {
+    info.textContent =
+      "OpenCricket match ID not available for this match. Demo players are not shown.";
     return;
   }
 
-  note.textContent = "Lineup data found. Player details may need verification.";
+  // Add your new API key below.
+  const API_KEY = "oc_live_oGcfsNeWP55cKnv6zGDB8nlGNF5VJRSE";
 
-  players.forEach((p, index) => {
-    const row = document.createElement("div");
-    row.style.cssText = "padding:10px 0;border-bottom:1px solid #ddd;";
+  fetch(
+    "https://opencricketapi.com/v1/matches/" +
+      encodeURIComponent(matchId) +
+      "/scorecard",
+    {
+      headers: {
+        "Authorization": "Bearer " + API_KEY
+      }
+    }
+  )
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Scorecard request failed: " + response.status);
+      }
+      return response.json();
+    })
+    .then(result => {
+      const innings = Array.isArray(result.data) ? result.data : [];
 
-    const name = document.createElement("strong");
-    name.textContent =
-      typeof p === "string"
-        ? p
-        : (p.name || p.player_name || p.fullName || "Player " + (index + 1));
+      if (!innings.length) {
+        info.textContent = "No scorecard data available for this match.";
+        return;
+      }
 
-    row.appendChild(name);
-    list.appendChild(row);
-  });
+      info.textContent = "Actual scorecard";
+
+      innings.forEach(inning => {
+        const section = document.createElement("section");
+        section.style.cssText =
+          "margin:20px 0;padding:12px;border:1px solid #ddd;border-radius:8px;";
+
+        const heading = document.createElement("h3");
+        heading.textContent =
+          (inning.team || "Team") + " — " +
+          (inning.total?.runs ?? 0) + "/" +
+          (inning.total?.wickets ?? 0) +
+          " (" + (inning.total?.overs ?? "?") + " overs)";
+        section.appendChild(heading);
+
+        const battingTitle = document.createElement("h4");
+        battingTitle.textContent = "Batting";
+        section.appendChild(battingTitle);
+
+        (inning.batting || []).forEach(player => {
+          const row = document.createElement("p");
+          row.style.cssText =
+            "padding:8px 0;border-bottom:1px solid #eee;margin:0;";
+          row.textContent =
+            player.name + ": " +
+            player.runs + " runs off " + player.balls +
+            " balls | 4s: " + player.fours +
+            " | 6s: " + player.sixes +
+            (player.not_out ? " (not out)" : "");
+          section.appendChild(row);
+        });
+
+        if (Array.isArray(inning.bowling) && inning.bowling.length) {
+          const bowlingTitle = document.createElement("h4");
+          bowlingTitle.textContent = "Bowling";
+          section.appendChild(bowlingTitle);
+
+          inning.bowling.forEach(player => {
+            const row = document.createElement("p");
+            row.textContent =
+              player.name + ": " +
+              (player.wickets ?? 0) + " wickets";
+            section.appendChild(row);
+          });
+        }
+
+        list.appendChild(section);
+      });
+    })
+    .catch(error => {
+      console.error("OpenCricket scorecard error:", error);
+      info.textContent =
+        "Scorecard load nahi hua. Match ID, API access ya request check karein.";
+    });
 }
+
  
  
 
