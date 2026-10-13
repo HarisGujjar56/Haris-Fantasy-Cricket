@@ -412,12 +412,65 @@ function savePoints(){
  document.getElementById("leagueName").value=name;document.getElementById("leagueCode").value=code;
  showMessage("leagueMessage","League code created on this device.");
 }
+ 
+function saveFriendScore(){
+ const name=document.getElementById("friendName").value.trim();
+ const points=Number(document.getElementById("friendPoints").value);
+
+ if(!name){
+  alert("Friend ka naam enter karein.");
+  return;
+ }
+ if(!Number.isFinite(points)||points<0){
+  alert("Valid points enter karein.");
+  return;
+ }
+
+ let friends=JSON.parse(localStorage.getItem("hfc_friends")||"[]");
+ friends.push({name:name,points:points});
+ localStorage.setItem("hfc_friends",JSON.stringify(friends));
+
+ document.getElementById("friendName").value="";
+ document.getElementById("friendPoints").value="";
+ renderLeaderboard();
+}
+ 
+
 function renderLeaderboard(){
  const name=localStorage.getItem("hfc_league_name")||"Haris Friends League";
  const box=document.getElementById("leaderboard");
- if(!savedTeam){box.innerHTML='<div class="empty">Valid team save karein, phir yahan nazar aayegi.</div>';return}
- box.innerHTML=`<div class="player"><div class="avatar">🏆</div><div class="player-info"><strong>${safeText(name)}</strong><small>${selected.length} players · This device only</small></div><div class="player-right"><strong>${totalPoints()}</strong><small>points</small></div></div>`;
+ let friends=JSON.parse(localStorage.getItem("hfc_friends")||"[]");
+
+ if(savedTeam){
+  friends.push({name:name,points:totalPoints(),self:true});
+ }
+
+ friends.sort((a,b)=>b.points-a.points);
+
+ box.innerHTML=`
+ <div class="player" style="display:block">
+  <strong>🏆 Add Friend</strong>
+  <label>Friend Name</label>
+  <input id="friendName" placeholder="Enter friend's name">
+  <label>Total Fantasy Points</label>
+  <input id="friendPoints" type="number" min="0" placeholder="Enter points">
+  <button onclick="saveFriendScore()">Save Friend</button>
+ </div>
+ <h3>🏆 Friends Rankings</h3>
+ ${friends.length?friends.map((f,i)=>`
+  <div class="player">
+   <div class="avatar">${i+1}</div>
+   <div class="player-info">
+    <strong>${safeText(f.name)}${f.self?" (You)":""}</strong>
+    <small>Rank ${i+1}</small>
+   </div>
+   <div class="player-right">
+    <strong>${f.points}</strong><small>points</small>
+   </div>
+  </div>`).join(""):'<div class="empty">Abhi koi friend add nahi hua.</div>'}
+ `;
 }
+ 
 function restoreFields(){
  const match=localStorage.getItem("hfc_match");
  if(match)document.getElementById("matchName").value=match;
