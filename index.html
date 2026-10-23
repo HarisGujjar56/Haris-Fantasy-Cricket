@@ -15,6 +15,9 @@ main{padding-bottom:35px}.card{background:rgba(16,37,29,.96);border:1px solid #2
 input,select,textarea{width:100%;background:#081810;color:var(--text);border:1px solid #315543;border-radius:10px;padding:12px;font:inherit;min-width:0}textarea{min-height:100px;resize:vertical}.btn{border:0;border-radius:10px;padding:11px 14px;font:inherit;font-weight:750;cursor:pointer;background:var(--green);color:white}.btn.secondary{background:#284638}.btn.gold{background:var(--gold);color:#2b2410}.btn.danger{background:#6a2a2a}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:400px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid #294538}th{font-size:12px;color:var(--muted);text-transform:uppercase}.rank{color:var(--gold);font-weight:900}.points{font-size:20px;font-weight:900}.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:#214c37;color:#d8ffdf;font-size:12px}.hidden{display:none!important}.playerrow{display:grid;grid-template-columns:1fr 90px 34px;gap:7px;margin:7px 0}.playerrow input{padding:9px}.playerrow button{padding:4px}.notice{border-left:3px solid var(--gold);padding:10px 12px;background:#282617;color:#f9edbc;border-radius:7px;font-size:13px;margin:10px 0}.empty{text-align:center;padding:24px;color:var(--muted)}footer{text-align:center;color:#759386;font-size:12px;padding:12px}
 @media(max-width:560px){h1{font-size:22px}.grid{grid-template-columns:1fr}.card{padding:13px}.playerrow{grid-template-columns:1fr 76px 32px}}
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 </head>
 <body>
 <header><div class="wrap"><h1>🏏 Haris Fantasy Cricket PRO</h1><p>Your private friends league</p><span class="badge">SEASON 1 · ADMIN MODE</span></div></header>
@@ -83,6 +86,21 @@ document.getElementById('export').onclick=()=>{let blob=new Blob([JSON.stringify
 document.getElementById('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!Array.isArray(d.friends)||!Array.isArray(d.matches))throw Error();data={...structuredClone(defaults),...d};save();alert('Backup imported!')}catch(err){alert('Invalid backup file.')}e.target.value=''};
 document.getElementById('reset').onclick=()=>{if(confirm('Delete all local league data? Export a backup first if needed.')){data=structuredClone(defaults);save();alert('All data reset.')}};
 renderAll();
+  // Firebase connection
+const firebaseConfig = {
+  apiKey: "AIzaSyBTzJ4dIaU7Jua--ppDfZZqrmtbjw2LDUc",
+  authDomain: "haris-fantasy-cricket.firebaseapp.com",
+  databaseURL: "https://haris-fantasy-cricket-default-rtdb.firebaseio.com",
+  projectId: "haris-fantasy-cricket",
+  storageBucket: "haris-fantasy-cricket.firebasestorage.app",
+  messagingSenderId: "612184957951",
+  appId: "1:612184957951:web:986830ce00253579917dca",
+  measurementId: "G-1E0G9TP9VW"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const database = firebase.database();
 </script>
 </body>
 </html>
