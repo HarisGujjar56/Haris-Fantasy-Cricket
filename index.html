@@ -48,8 +48,8 @@ input,select,textarea{width:100%;background:#081810;color:var(--text);border:1px
 
   <p id="authMessage" class="muted" style="margin-top:12px"></p>
 </section>
-</nav>
-<main>
+<nav class="hidden">
+<main class="hidden">
 <section id="home" class="page">
 <div class="card"><h2>🏆 Friends Championship</h2><p class="muted">Current overall standings · updates when you save match points</p><div id="leaderboard"></div></div>
 <div class="card"><h2>📅 Match History</h2><div id="history"></div></div>
@@ -73,7 +73,7 @@ input,select,textarea{width:100%;background:#081810;color:var(--text);border:1px
 <div class="card"><h2>⚙️ Manage Friends</h2><p class="muted">Add up to 6 friends. Changes are saved on this device.</p><div id="friendsEditor"></div><div class="actions"><button class="btn secondary" id="addFriend">+ Add friend</button><button class="btn" id="saveFriends">Save Friends</button></div></div>
 <div class="card"><h2>💾 Backup & Reset</h2><p class="muted">Your data is stored in this browser on this device. Export a backup regularly. It is not automatically shared to your friends' phones.</p><div class="actions"><button class="btn secondary" id="export">Export Backup</button><label class="btn secondary" for="importFile" style="cursor:pointer">Import Backup</label><input id="importFile" type="file" accept="application/json" class="hidden"><button class="btn danger" id="reset">Reset All Data</button></div></div>
 </section>
-</main><footer>Haris Fantasy Cricket PRO · Easy manual version · No cash betting</footer>
+<footer class="hidden">Haris Fantasy Cricket PRO · Easy manual version · No cash betting</footer>
 </div>
 <script>
 const KEY='harisFantasyProV1';
@@ -121,6 +121,25 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+  // Show app only after login
+auth.onAuthStateChanged((user) => {
+  const loginSection = document.getElementById('loginSection');
+  const nav = document.querySelector('nav');
+  const main = document.querySelector('main');
+  const footer = document.querySelector('footer');
+
+  if (user) {
+    loginSection.classList.add('hidden');
+    nav.classList.remove('hidden');
+    main.classList.remove('hidden');
+    footer.classList.remove('hidden');
+  } else {
+    loginSection.classList.remove('hidden');
+    nav.classList.add('hidden');
+    main.classList.add('hidden');
+    footer.classList.add('hidden');
+  }
+});
 const database = firebase.database();
 // Login existing account
 document.getElementById('loginBtn').onclick = async () => {
