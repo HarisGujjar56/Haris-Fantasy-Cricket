@@ -27,6 +27,27 @@ input,select,textarea{width:100%;background:#081810;color:var(--text);border:1px
 <button class="tab" data-tab="teams">👥 Teams</button>
 <button class="tab" data-tab="match">➕ Match / Points</button>
 <button class="tab" data-tab="settings">⚙️ Manage League</button>
+<section id="loginSection" class="card">
+  <h2>🔐 Haris Fantasy Cricket Login</h2>
+  <p class="muted">Login karo ya apna naya account banao.</p>
+
+  <div class="field">
+    <label>Email Address</label>
+    <input id="authEmail" type="email" placeholder="Enter your email" autocomplete="email">
+  </div>
+
+  <div class="field">
+    <label>Password</label>
+    <input id="authPassword" type="password" placeholder="Enter password" autocomplete="current-password">
+  </div>
+
+  <div class="actions">
+    <button class="btn" id="loginBtn">Login</button>
+    <button class="btn secondary" id="registerBtn">Create Account</button>
+  </div>
+
+  <p id="authMessage" class="muted" style="margin-top:12px"></p>
+</section>
 </nav>
 <main>
 <section id="home" class="page">
@@ -101,6 +122,48 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const database = firebase.database();
+// Login existing account
+document.getElementById('loginBtn').onclick = async () => {
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const message = document.getElementById('authMessage');
+
+  if (!email || !password) {
+    message.textContent = 'Email aur password dono enter karo.';
+    return;
+  }
+
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    message.textContent = 'Login successful!';
+  } catch (error) {
+    message.textContent = error.message;
+  }
+};
+
+// Create new account
+document.getElementById('registerBtn').onclick = async () => {
+  const email = document.getElementById('authEmail').value.trim();
+  const password = document.getElementById('authPassword').value;
+  const message = document.getElementById('authMessage');
+
+  if (!email || !password) {
+    message.textContent = 'Email aur password dono enter karo.';
+    return;
+  }
+
+  if (password.length < 6) {
+    message.textContent = 'Password kam az kam 6 characters ka hona chahiye.';
+    return;
+  }
+
+  try {
+    await auth.createUserWithEmailAndPassword(email, password);
+    message.textContent = 'Account successfully ban gaya!';
+  } catch (error) {
+    message.textContent = error.message;
+  }
+};
 </script>
 </body>
 </html>
